@@ -4,3 +4,7 @@
 //= require redactor-rails/plugins/fontsize
 //= require redactor-rails/plugins/fullscreen
 //= require redactor-rails/plugins/textdirection
+//= require redactor-rails/plugins/imagemanager
+//= require redactor-rails/plugins/filemanager
+//= require redactor-rails/plugins/table
+//= require redactor-rails/plugins/video
