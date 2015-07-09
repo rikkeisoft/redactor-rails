@@ -6,6 +6,10 @@ module RedactorRails
 
   FILE_TYPES = %w(application/msword application/pdf text/plain text/rtf application/vnd.ms-excel)
 
+  DEFAULT_CURRENT_USER = Proc.new do
+    request.env["warden"].try(:user) || respond_to?(:current_user) && current_user
+  end
+
   autoload :Http, 'redactor-rails/http'
   autoload :Devise, 'redactor-rails/devise'
 
@@ -84,5 +88,10 @@ module RedactorRails
 
   def self.setup
     yield self
+  end
+
+  def self.current_user_method(&block)
+    @current_user = block if block
+    @current_user || DEFAULT_CURRENT_USER
   end
 end
