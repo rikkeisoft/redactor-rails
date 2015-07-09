@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["sammylintw@gmail.com"]
   gem.description   = "The redactor-rails gem integrates the Redactor editor"
   gem.summary       = ""
-  gem.homepage      = "https://github.com/sammylin/redactor-rails"
+  gem.homepage      = "https://github.com/hnq90/redactor-rails"
   gem.license       = 'MIT'
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
