@@ -28,16 +28,16 @@ module Redactor
       end
 
       def create_models
-        [:asset, :picture, :attachment_file].each do
+        [:asset, :picture, :attachment_file].each do |filename|
           template "#{generator_dir}/redactor/#{filename}.rb",
             File.join('app/models', redactor_dir, "#{filename}.rb")
         end
 
         if 'carrierwave' == backend
-          filename = "redactor_rails_#{filename}_uploader.rb"
-          [:picture, :attachment_file].each do
-            template "#{uploaders_dir}/uploaders/#{filename}",
-              File.join('app/uploaders', filename)
+          [:picture, :attachment_file].each do |filename|
+            file_name = "redactor_rails_#{filename}_uploader.rb"
+            template "#{uploaders_dir}/uploaders/#{file_name}",
+              File.join('app/uploaders', file_name)
           end
         end
         nil
@@ -46,10 +46,10 @@ module Redactor
       def create_redactor_migration
         if 'active_record' == orm.to_s
           if ARGV.include?('--devise')
-            migration_template '#{generator_dir}/devise_migration.rb',
+            migration_template "#{generator_dir}/devise_migration.rb",
               File.join('db/migrate', 'create_redactor_assets.rb')
           else
-            migration_template '#{generator_dir}/migration.rb',
+            migration_template "#{generator_dir}/migration.rb",
               File.join('db/migrate', 'create_redactor_assets.rb')
           end
         end
