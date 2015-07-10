@@ -9,7 +9,7 @@
 
 	Usage: $('#content').redactor();
 */
-REDACTOR = {version: "10.2",  instances: {}};
+REDACTOR = {version: "10.2",  instances: {}, params: {}};
 (function($)
 {
 	'use strict';
