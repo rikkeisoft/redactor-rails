@@ -3,12 +3,14 @@ require 'mini_magick'
 
 module RedactorRails
   module Backend
+    # CarrierWave
     module CarrierWave
       def self.included(base)
         base.send(:include, InstanceMethods)
         base.send(:extend, ClassMethods)
       end
 
+      # ClassMethods
       module ClassMethods
         def self.extended(base)
           base.class_eval do
@@ -18,6 +20,7 @@ module RedactorRails
         end
       end
 
+      # InstanceMethods
       module InstanceMethods
         # process :strip
         def strip
@@ -38,7 +41,8 @@ module RedactorRails
         end
 
         def extract_content_type
-          if file.content_type == 'application/octet-stream' || file.content_type.blank?
+          if 'application/octet-stream' == file.content_type ||
+             file.content_type.blank?
             content_type = MIME::Types.type_for(original_filename).first
           else
             content_type = file.content_type
@@ -52,12 +56,12 @@ module RedactorRails
         end
 
         def read_dimensions
-          if model.image? && model.has_dimensions?
+          if model.image? && model.dimensions?
             magick = ::MiniMagick::Image.new(current_path)
             model.width, model.height = magick[:width], magick[:height]
           end
+          nil
         end
-
       end
     end
   end

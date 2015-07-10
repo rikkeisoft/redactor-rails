@@ -1,14 +1,18 @@
-class RedactorRails::AttachmentFile < RedactorRails::Asset
-  mount_uploader :data, RedactorRailsAttachmentFileUploader, :mount_on => :data_file_name
+module RedactorRails
+  class AttachmentFile < RedactorRails::Asset
+    mount_uploader :data,
+      RedactorRailsAttachmentFileUploader,
+      mount_on: :data_file_name
 
-  def url_content
-    url(:content)
-  end
+    def url_content
+      url(:content)
+    end
 
-  def thumb
-    # Could theoretically provide an icon set here
-    # to match against the extensions
-    # but for now it's nil to address the bug
-    nil
+    def thumb
+      # Could theoretically provide an icon set here
+      # to match against the extensions
+      # but for now it's nil to address the bug
+      nil
+    end
   end
 end

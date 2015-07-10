@@ -2,8 +2,9 @@ module RedactorRails
   module Orm
     module Base
       module AssetBase
+        # Instance Methods
         module InstanceMethods
-          def has_dimensions?
+          def dimensions?
             respond_to?(:width) && respond_to?(:height)
           end
 
@@ -25,10 +26,9 @@ module RedactorRails
 
           def as_json(options = nil)
             options = {
-              :methods => as_json_methods,
-              :root => false
+              methods: as_json_methods,
+              root: false
             }
-
             super options
           end
         end

@@ -3,6 +3,7 @@ require 'digest/sha1'
 require 'mime/types'
 
 module RedactorRails
+  # Http
   module Http
     # Create tempfile from hash
     class UploadedFile
@@ -13,7 +14,7 @@ module RedactorRails
         @content_type      = hash[:type]
         @headers           = hash[:head]
         @tempfile          = hash[:tempfile]
-        raise(ArgumentError, ':tempfile is required') unless @tempfile
+        fail(':tempfile is required') unless @tempfile
       end
 
       def open
@@ -40,8 +41,7 @@ module RedactorRails
     # Usage (paperclip example)
     # @asset.data = QqFile.new(params[:qqfile], request)
     class QqFile < ::Tempfile
-
-      def initialize(filename, request, tmpdir = Dir::tmpdir)
+      def initialize(filename, request, tmpdir = Dir.tmpdir)
         @original_filename  = filename
         @request = request
 
@@ -50,8 +50,8 @@ module RedactorRails
       end
 
       def fetch
-        self.write(body)
-        self.rewind
+        write(body)
+        rewind
         self
       end
 
@@ -66,7 +66,7 @@ module RedactorRails
 
       def body
         if @request.raw_post.respond_to?(:force_encoding)
-          @request.raw_post.force_encoding("UTF-8")
+          @request.raw_post.force_encoding('UTF-8')
         else
           @request.raw_post
         end
@@ -77,7 +77,7 @@ module RedactorRails
     # file upload hash with UploadedFile objects
     def self.normalize_param(*args)
       value = args.first
-      if Hash === value && value.has_key?(:tempfile)
+      if value.is_a?(Hash) && value.key?(:tempfile)
         UploadedFile.new(value)
       elsif value.is_a?(String)
         QqFile.new(*args)

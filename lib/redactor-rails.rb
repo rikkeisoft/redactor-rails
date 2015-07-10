@@ -1,18 +1,27 @@
 require 'orm_adapter'
 require 'redactor-rails/version'
 
+# RedactorRails
 module RedactorRails
-  IMAGE_TYPES = %w(image/jpeg image/png image/gif image/jpg image/pjpeg image/tiff image/x-png)
+  IMAGE_TYPES = %w(
+    image/jpeg image/png image/gif image/jpg
+    image/pjpeg image/tiff image/x-png)
 
-  FILE_TYPES = %w(application/msword application/pdf text/plain text/rtf application/vnd.ms-excel)
+  FILE_TYPES = %w(
+    image/jpeg image/png image/gif image/jpg
+    image/pjpeg image/tiff image/x-png
+    application/msword application/pdf text/plain
+    text/rtf application/vnd.ms-excel)
 
-  DEFAULT_CURRENT_USER = Proc.new do
-    request.env["warden"].try(:user) || respond_to?(:current_user) && current_user
+  DEFAULT_CURRENT_USER = proc do
+    request.env['warden'].try(:user) ||
+    respond_to?(:current_user) && current_user
   end
 
   autoload :Http, 'redactor-rails/http'
   autoload :Devise, 'redactor-rails/devise'
 
+  # module Backend
   module Backend
     autoload :CarrierWave, 'redactor-rails/backend/carrierwave'
   end
@@ -24,10 +33,10 @@ module RedactorRails
   require 'redactor-rails/helper'
 
   mattr_accessor :image_file_types
-  @@image_file_types = %w(jpg jpeg png gif tiff)
-
   mattr_accessor :attachment_file_types
-  @@attachment_file_types = %w(doc docx xls odt ods pdf rar zip tar tar.gz swf)
+
+  @@image_file_types = %w(jpg jpeg png gif tiff)
+  @@attachment_file_types = %w(jpg jpeg png gif tiff doc docx xls odt ods pdf rar zip tar tar.gz swf)
 
   @@picture_model = nil
   @@attachment_file_model = nil
