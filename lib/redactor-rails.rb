@@ -8,8 +8,6 @@ module RedactorRails
     image/pjpeg image/tiff image/x-png)
 
   FILE_TYPES = %w(
-    image/jpeg image/png image/gif image/jpg
-    image/pjpeg image/tiff image/x-png
     application/msword application/pdf text/plain
     text/rtf application/vnd.ms-excel)
 
@@ -36,7 +34,7 @@ module RedactorRails
   mattr_accessor :attachment_file_types
 
   @@image_file_types = %w(jpg jpeg png gif tiff)
-  @@attachment_file_types = %w(jpg jpeg png gif tiff doc docx xls odt ods pdf rar zip tar tar.gz swf)
+  @@attachment_file_types = %w(doc docx xls odt ods pdf rar zip tar tar.gz swf)
 
   @@picture_model = nil
   @@attachment_file_model = nil
