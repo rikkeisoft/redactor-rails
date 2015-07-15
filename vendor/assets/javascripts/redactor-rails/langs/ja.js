@@ -6,7 +6,7 @@ $.Redactor.opts.langs['ja'] = {
 	table: 'テーブル',
 	link: 'リンク',
 	link_insert: 'リンクの挿入 ...',
-	link_edit: 'Edit link',
+	link_edit: 'リンク編集',
 	unlink: 'リンクを外す',
 	formatting: 'スタイル',
 	paragraph: '段落',
@@ -70,7 +70,12 @@ $.Redactor.opts.langs['ja'] = {
 	alignment: '行揃え',
 	filename: '名前（オプション）',
 	edit: '編集',
-	center: 'Center',
-	upload_label: 'Drop file here or '
+	center: 'センター',
+	upload_label: 'ここにファイルをドロップしますか、',
+      clip_label: 'クリップ',
+      clip_insert: 'クリップを挿入します',
+      fullscreen_label: '全画面表示',
+      remove_font_size: 'フォントサイズを削除します',
+      change_font_size: 'フォントサイズの変更'
 };
 })( jQuery );
