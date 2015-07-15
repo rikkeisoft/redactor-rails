@@ -32,8 +32,8 @@
           li.append(span)
           this.clips.template.append(li);
         }
-
-        this.modal.addTemplate('clips', '<section>' + this.utils.getOuterHtml(this.clips.template) + '</section>');
+        modal_body = this.utils.getOuterHtml(this.clips.template) + "<input type='checkbox' class='remove_all'>" + this.lang.get('remove_all')
+        this.modal.addTemplate('clips', '<section>' + modal_body + '</section>');
 
         var button = this.button.add('clips', this.lang.get('clip_label'));
         this.button.addCallback(button, this.clips.show);
@@ -57,8 +57,13 @@
         }, this));
       },
       insert: function(html) {
+        var remove_all = $("#redactor-modal-body .remove_all").is(':checked');
         this.selection.restore();
-        this.insert.html(html, false);
+        if (remove_all) {
+          this.insert.set(html);
+        } else {
+          this.insert.html(html);
+        }
         this.modal.close();
         this.observe.load();
       }

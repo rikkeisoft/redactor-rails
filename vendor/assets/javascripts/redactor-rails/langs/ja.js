@@ -77,6 +77,7 @@
    clip_no_template: 'テンプレートはありません',
    fullscreen_label: '全画面表示',
    remove_font_size: 'フォントサイズを削除します',
-   change_font_size: 'フォントサイズの変更'
+   change_font_size: 'フォントサイズの変更',
+   remove_all: '実際の内容を変更しますか？'
  };
 })( jQuery );
