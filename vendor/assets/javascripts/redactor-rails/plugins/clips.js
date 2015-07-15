@@ -32,7 +32,11 @@
           li.append(span)
           this.clips.template.append(li);
         }
-        modal_body = this.utils.getOuterHtml(this.clips.template) + "<input type='checkbox' class='remove_all'>" + this.lang.get('remove_all')
+        modal_body = this.utils.getOuterHtml(this.clips.template);
+
+        if (items.length > 0) {
+          modal_body += "<input type='checkbox' class='remove_all' style='margin-top: 10px'>" + this.lang.get('remove_all');
+        }
         this.modal.addTemplate('clips', '<section>' + modal_body + '</section>');
 
         var button = this.button.add('clips', this.lang.get('clip_label'));
