@@ -22,10 +22,10 @@
         this.modal.addTab(1, this.lang.get('upload'), 'active');
         this.modal.addTab(2, this.lang.get('choose'));
         $('#redactor-modal-image-droparea').addClass('redactor-tab redactor-tab1');
-        var $box = $('<div id="redactor-image-manager-box" style="overflow: auto; height: 300px;" class="redactor-tab redactor-tab2">').hide();
+        var $box = $('<div id="redactor-image-manager-box" style="height: 300px;" class="redactor-tab redactor-tab2">').hide();
         $modal.append($box);
         $('#redactor-image-manager-box').prepend("<div id='image-paginator'>");
-        $('#redactor-image-manager-box').append("<div class='image-grid'>");
+        $('#redactor-image-manager-box').append("<div class='image-grid' style='overflow: auto;'>");
         this.imagemanager.draw_image_grid(this.imagemanager.page);
       },
       insert: function(e) {
