@@ -78,6 +78,8 @@
    fullscreen_label: '全画面表示',
    remove_font_size: 'フォントサイズを削除します',
    change_font_size: 'フォントサイズの変更',
-   remove_all: '実際の内容を変更しますか？'
+   remove_all: '実際の内容を変更しますか？',
+   get_image_error: 'エラーが発生しました。任意の画像が見つかりませんでした。',
+   get_file_error: 'エラーが発生しました。任意のファイルが見つかりませんでした。'
  };
 })( jQuery );
