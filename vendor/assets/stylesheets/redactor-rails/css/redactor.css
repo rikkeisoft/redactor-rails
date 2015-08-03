@@ -1014,6 +1014,13 @@ body .redactor-box-fullscreen {
 .pagination span.gap {
   pointer-events: none;
 }
+#redactor-modal .image-grid {
+    margin-left: 0;
+    padding-left: 0;
+    list-style: none;
+    max-height: 250px;
+    overflow-x: auto;
+}
 .image-grid .error, .file-list .error {
   color: #f00;
   display: block;
