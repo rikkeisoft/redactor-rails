@@ -14,19 +14,14 @@
 					'#7f7f7f', '#0c0c0c', '#1d1b10', '#0f243e', '#244061', '#632423', '#4f6128', '#3f3151', '#31859b',  '#974806', '#7f6000'
 				];
 
-				var buttons = ['fontcolor', 'backcolor'];
+				var name = 'fontcolor';
 
-				for (var i = 0; i < 2; i++)
-				{
-					var name = buttons[i];
+				var button = this.button.addAfter('deleted', name, this.lang.get(name));
+				var $dropdown = this.button.addDropdown(button);
 
-					var button = this.button.add(name, this.lang.get(name));
-					var $dropdown = this.button.addDropdown(button);
+				$dropdown.width(242);
+				this.fontcolor.buildPicker($dropdown, name, colors);
 
-					$dropdown.width(242);
-					this.fontcolor.buildPicker($dropdown, name, colors);
-
-				}
 			},
 			buildPicker: function($dropdown, name, colors)
 			{

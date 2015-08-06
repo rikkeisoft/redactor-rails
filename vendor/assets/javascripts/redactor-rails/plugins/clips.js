@@ -39,7 +39,7 @@
         }
         this.modal.addTemplate('clips', '<section>' + modal_body + '</section>');
 
-        var button = this.button.add('clips', this.lang.get('clip_label'));
+        var button = this.button.addBefore('fullscreen', 'clips', this.lang.get('clip_label'));
         this.button.addCallback(button, this.clips.show);
 
       },
