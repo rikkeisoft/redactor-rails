@@ -29,7 +29,20 @@
         this.imagemanager.draw_image_grid(this.imagemanager.page);
       },
       insert: function(e) {
-        this.image.insert('<img src="' + $(e.target).attr('rel') + '" alt="' + $(e.target).attr('title') + '">');
+        var img_str = '',
+              original = $(e.target).attr('data-origin');
+
+        if (original && REDACTOR.lightbox) {
+          img_str += '<a href="' + $(e.target).attr('data-origin') + '" class="image-lightbox">';
+        }
+
+        img_str += '<img src="' + $(e.target).attr('rel') + '" alt="' + $(e.target).attr('title') + '">';
+
+        if (original && REDACTOR.lightbox) {
+          img_str += '</a>';
+        }
+
+        this.nimage.insert(img_str);
       },
       draw_image_grid: function(page) {
         $('#redactor-image-manager-box .image-grid').html(this.imagemanager.loading_animation);
@@ -46,7 +59,15 @@
             $.each(data, $.proxy(function(key, val) {
               var thumbtitle = '';
               if (typeof val.title !== 'undefined') thumbtitle = val.title;
-              var img = $('<img src="' + val.thumb + '" rel="' + val.image + '" title="' + thumbtitle + '" style="width: 100px; height: 75px; cursor: pointer;" />');
+              var img = $('<img />');
+              img.attr('src', val.thumb)
+              .attr('rel', val.image)
+              .attr('title', thumbtitle)
+              .attr('style', 'width: 100px; height: 75px; cursor: pointer;');
+              if (val.lightbox) {
+                img.attr('data-origin', val.origin);
+              }
+
               $('#redactor-image-manager-box .image-grid').append(img);
               $(img).click($.proxy(this.imagemanager.insert, this));
             }, this));
