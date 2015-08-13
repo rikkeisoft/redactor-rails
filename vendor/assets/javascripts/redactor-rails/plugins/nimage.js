@@ -397,9 +397,7 @@ $.Redactor.prototype.nimage = function() {
 
       var $image = this.$editor.find('img[data-redactor-inserted-image=true]').removeAttr('data-redactor-inserted-image');
 
-      if (isP) {
-        $image.parent().contents().unwrap().wrap('<p />');
-      } else if (this.opts.linebreaks) {
+      if (this.opts.linebreaks) {
         if (!this.utils.isEmpty(this.code.get())) {
           $image.before('<br>');
         }

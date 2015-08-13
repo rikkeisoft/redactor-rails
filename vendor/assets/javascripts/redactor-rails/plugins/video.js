@@ -32,8 +32,8 @@
           data = this.clean.stripTags(data);
 
           // parse if it is link on youtube & vimeo
-          var iframeStart = '<iframe style="width:500px;max-width:90%;height:281px;display:block;clear:both;" src="',
-            iframeEnd = '" frameborder="0" allowfullscreen></iframe>';
+          var iframeStart = '<div class="embed-container"><iframe src="',
+            iframeEnd = '" frameborder="0" allowfullscreen></iframe></div>';
 
           if (data.match(this.video.reUrlYoutube)) {
             data = data.replace(this.video.reUrlYoutube, iframeStart + '//www.youtube.com/embed/$1' + iframeEnd);
