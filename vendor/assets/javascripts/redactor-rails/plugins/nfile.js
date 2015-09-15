@@ -35,7 +35,7 @@ $.Redactor.prototype.nfile = function() {
         if (typeof text == 'undefined' || text === '') {
           text = json.filename;
         }
-        link = '<a href="' + json.filelink + '" id="filelink-marker">' + text + '</a>';
+        link = '<a href="' + json.filelink + '" id="filelink-marker" target="_blank">' + text + '</a>';
       }
 
       if (direct) {

@@ -31,7 +31,7 @@
       insert: function(e) {
         e.preventDefault();
         var $target = $(e.target).closest('.redactor-file-manager-link');
-        this.file.insert('<a href="' + $target.attr('rel') + '">' + $target.attr('title') + '</a>');
+        this.file.insert('<a href="' + $target.attr('rel') + '" target="_blank">' + $target.attr('title') + '</a>');
       },
       draw_file_list: function(page) {
         $('#redactor-file-manager-box .file-list').html(this.filemanager.loading_animation);
