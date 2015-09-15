@@ -1,12 +1,17 @@
 $.Redactor.prototype.nimage = function() {
   return {
     init: function() {
-      var button = this.button.addBefore('file', 'image', this.lang.get('image'));
+      var button = this.button.addAfter('html', 'image', this.lang.get('image'));
       this.button.addCallback(button, this.nimage.show);
     },
     show: function() {
       this.modal.load('image', this.lang.get('image'), 700);
-      this.upload.init('#redactor-modal-image-droparea', this.opts.imageUpload, this.nimage.insert);
+
+      if (this.utils.browser('msie') && this.utils.isLessIe10()) {
+        this.nupload.init('#redactor-modal-image-droparea', this.opts.imageUpload, this.nimage.insert, 'image');
+      } else {
+        this.upload.init('#redactor-modal-image-droparea', this.opts.imageUpload, this.nimage.insert);
+      }
 
       this.selection.save();
       this.modal.show();
@@ -40,7 +45,9 @@ $.Redactor.prototype.nimage = function() {
         $redactorImageLink.attr('href', $image.attr('src'));
         if ($link.length !== 0) {
           $redactorImageLink.val($link.attr('href'));
-          if ($link.attr('target') == '_blank') $('#redactor-image-link-blank').prop('checked', true);
+          if ($link.attr('target') == '_blank') {
+            $('#redactor-image-link-blank').prop('checked', true);
+          }
         }
       }
 
@@ -77,7 +84,7 @@ $.Redactor.prototype.nimage = function() {
       }
 
       $image.css({
-        'float': imageFloat,
+        float: imageFloat,
         display: imageDisplay,
         margin: imageMargin
       });
@@ -111,7 +118,9 @@ $.Redactor.prototype.nimage = function() {
 
         if ($link.length === 0) {
           var a = $('<a href="' + link + '">' + this.utils.getOuterHtml($image) + '</a>');
-          if (target) a.attr('target', '_blank');
+          if (target) {
+            a.attr('target', '_blank');
+          }
 
           $image.replaceWith(a);
         } else {
@@ -140,7 +149,9 @@ $.Redactor.prototype.nimage = function() {
         this.nimage.resizer = this.nimage.loadEditableControls($image);
         $(document).on('mousedown.redactor-image-resize-hide.' + this.uuid, $.proxy(this.nimage.hideResize, this));
         // resize
-        if (!this.opts.imageResizable) return;
+        if (!this.opts.imageResizable) {
+          return;
+        }
         this.nimage.resizer.on('mousedown.redactor touchstart.redactor', $.proxy(function(e) {
           this.nimage.setResizable(e, $image);
         }, this));
@@ -179,12 +190,17 @@ $.Redactor.prototype.nimage = function() {
 
       var height = this.nimage.resizeHandle.h;
 
-      if (e.targetTouches) height += (e.targetTouches[0].pageY - this.nimage.resizeHandle.y);
-      else height += (e.pageY - this.nimage.resizeHandle.y);
+      if (e.targetTouches) {
+        height += (e.targetTouches[0].pageY - this.nimage.resizeHandle.y);
+      } else {
+        height += (e.pageY - this.nimage.resizeHandle.y);
+      }
 
       var width = Math.round(height * this.nimage.resizeHandle.ratio);
 
-      if (height < 50 || width < 100) return;
+      if (height < 50 || width < 100) {
+        return;
+      }
 
       var height = Math.round(this.nimage.resizeHandle.el.width() / this.nimage.resizeHandle.ratio);
 
@@ -228,14 +244,18 @@ $.Redactor.prototype.nimage = function() {
       });
     },
     hideResize: function(e) {
-      if (e && $(e.target).closest('#redactor-image-box', this.$editor[0]).length !== 0) return;
+      if (e && $(e.target).closest('#redactor-image-box', this.$editor[0]).length !== 0) {
+        return;
+      }
       if (e && e.target.tagName == 'IMG') {
         var $image = $(e.target);
         $image.attr('data-save-url', $image.attr('src'));
       }
 
       var imageBox = this.$editor.find('#redactor-image-box');
-      if (imageBox.length === 0) return;
+      if (imageBox.length === 0) {
+        return;
+      }
 
       $('#redactor-image-editter').remove();
       $('#redactor-image-resizer').remove();
@@ -297,8 +317,8 @@ $.Redactor.prototype.nimage = function() {
         $image.css('margin', '');
       } else {
         imageBox.css({
-          'display': 'block',
-          'margin': 'auto'
+          display: 'block',
+          margin: 'auto'
         });
       }
 
@@ -373,9 +393,9 @@ $.Redactor.prototype.nimage = function() {
         $img.attr('src', json.filelink).attr('data-redactor-inserted-image', 'true');
 
         if (REDACTOR.lightbox && json.lightbox) {
-          $img_wrapper = $('<a>');
-          $img_wrapper.attr('href', json.original).attr('title', json.filename).addClass('image-lightbox');
-          $img = $img_wrapper.append($img);
+          $imgWrapper = $('<a>');
+          $imgWrapper.attr('href', json.original).attr('title', json.filename).addClass('image-lightbox');
+          $img = $imgWrapper.append($img);
         }
       }
 
@@ -404,7 +424,9 @@ $.Redactor.prototype.nimage = function() {
         $image.after('<br>');
       }
 
-      if (typeof json == 'string') return;
+      if (typeof json == 'string') {
+        return;
+      }
       this.core.setCallback('imageUpload', $image, json);
     }
   };
