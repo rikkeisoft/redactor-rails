@@ -7355,7 +7355,7 @@ REDACTOR = {version: "10.2.4",  instances: {}, params: {}};
           this.$editor.attr('placeholder', this.$element.attr('placeholder'));
 
           this.placeholder.toggle();
-          this.$editor.on('keydown.redactor-placeholder', $.proxy(this.placeholder.toggle, this));
+          this.$editor.on('keyup.redactor-placeholder', $.proxy(this.placeholder.toggle, this));
         },
         toggle: function()
         {
