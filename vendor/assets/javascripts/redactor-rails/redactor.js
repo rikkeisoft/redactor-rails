@@ -5248,7 +5248,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					{
 						this.core.addEvent(false);
 
-						if (this.keydown.checkKeyEvents(key))
+						if (this.keydown.checkKeyEvents(key) && this.core.getEvent() == 'arrow')
 						{
 							this.buffer.set();
 						}
