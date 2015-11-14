@@ -6,7 +6,7 @@
 
 	Copyright (c) 2009-2015, Imperavi LLC.
 	License: http://imperavi.com/redactor/license/
-
+c
 	Usage: $('#content').redactor();
 */
 REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
@@ -1336,6 +1336,9 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 					// init callback
 					this.core.setCallback('init');
+                    this.focus.setEnd();
+
+
 				},
 				setOptions: function()
 				{
@@ -5248,7 +5251,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					{
 						this.core.addEvent(false);
 
-						if (this.keydown.checkKeyEvents(key))
+						if (this.keydown.checkKeyEvents(key) && this.core.getEvent() == 'arrow')
 						{
 							this.buffer.set();
 						}
@@ -6570,6 +6573,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 
 					$.extend(this.opts, this.opts.modal);
+                    this.focus.setEnd();
 
 				},
 				addCallback: function(name, callback)
