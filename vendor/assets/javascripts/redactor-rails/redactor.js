@@ -6,7 +6,6 @@
 
 	Copyright (c) 2009-2015, Imperavi LLC.
 	License: http://imperavi.com/redactor/license/
-
 	Usage: $('#content').redactor();
 */
 REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
@@ -1336,6 +1335,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 					// init callback
 					this.core.setCallback('init');
+
 				},
 				setOptions: function()
 				{
@@ -1404,6 +1404,25 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						this.core.addEvent(type);
 						this.utils.disableSelectAll();
 						this.core.setCallback('click', e);
+                        var last = this.$editor.children().last();
+                        this.$editor.focus();
+
+                        if (last.size() === 0) return;
+                        if (this.utils.isEmpty(this.$editor.html()))
+                        {
+                            this.selection.get();
+                            this.range.collapse(true);
+                            this.range.setStartAfter(last[0]);
+                            this.range.setEnd(last[0], 0);
+                            this.selection.addRange();
+                        }
+                        else
+                        {
+                            this.selection.get();
+                            this.range.collapse(false);
+                            this.selection.addRange();
+
+                        }
 
 					}, this));
 
@@ -3207,7 +3226,6 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					var eventName = type + 'Callback';
 					var eventNamespace = 'redactor';
 					var callback = this.opts[eventName];
-
 					if (this.$textarea)
 					{
 						var returnValue = false;
@@ -3225,10 +3243,8 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 								}
 							}, this));
 						}
-
 						if (returnValue) return returnValue;
 					}
-
 					if ($.isFunction(callback))
 					{
 						return (typeof data == 'undefined') ? callback.call(this, e) : callback.call(this, e, data);
