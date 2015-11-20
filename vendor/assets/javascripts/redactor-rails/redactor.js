@@ -1405,7 +1405,6 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						this.utils.disableSelectAll();
 						this.core.setCallback('click', e);
                         var last = this.$editor.children().last();
-                        this.$editor.focus();
 
                         if (last.size() === 0) return;
                         if (this.utils.isEmpty(this.$editor.html()))
@@ -1419,9 +1418,6 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
                         else
                         {
                             this.selection.get();
-                            this.range.collapse(false);
-                            this.selection.addRange();
-
                         }
 
 					}, this));
