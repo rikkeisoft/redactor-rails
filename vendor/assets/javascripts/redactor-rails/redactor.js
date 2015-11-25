@@ -412,6 +412,9 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 			// build
 			this.start = true;
 			this.build.run();
+
+            //autosave
+            this.autosave.enable();
 		},
 
 		loadOptions: function(options)
@@ -2957,7 +2960,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 					//autosave
 					this.autosave.onChange();
-					this.autosave.enable();
+                    //this.autosave.enable();
 				},
 				toggle: function()
 				{
