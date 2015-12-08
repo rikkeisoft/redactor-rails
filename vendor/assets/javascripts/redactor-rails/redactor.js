@@ -412,7 +412,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 			// build
 			this.start = true;
 			this.build.run();
-
+            $(document).find('.redactor-toolbar-tooltip').hide();
             //autosave
             this.autosave.enable();
 		},
@@ -3312,9 +3312,9 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					if (this.$modalOverlay) this.$modalOverlay.remove();
 
 					// buttons tooltip
-					$('.redactor-toolbar-tooltip-' + this.uuid).remove();
+                    $('.redactor-toolbar-tooltip-' + this.uuid).remove();
 
-					// autosave
+                    // autosave
 					clearInterval(this.autosaveInterval);
 				}
 			};
