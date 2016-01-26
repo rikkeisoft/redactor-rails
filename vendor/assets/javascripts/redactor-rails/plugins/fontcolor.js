@@ -6,12 +6,12 @@
 			init: function()
 			{
 				var colors = [
-					'#ffffff', '#000000', '#eeece1', '#1f497d', '#4f81bd', '#c0504d', '#9bbb59', '#8064a2', '#4bacc6', '#f79646', '#ffff00',
-					'#f2f2f2', '#7f7f7f', '#ddd9c3', '#c6d9f0', '#dbe5f1', '#f2dcdb', '#ebf1dd', '#e5e0ec', '#dbeef3', '#fdeada', '#fff2ca',
-					'#d8d8d8', '#595959', '#c4bd97', '#8db3e2', '#b8cce4', '#e5b9b7', '#d7e3bc', '#ccc1d9', '#b7dde8', '#fbd5b5', '#ffe694',
-					'#bfbfbf', '#3f3f3f', '#938953', '#548dd4', '#95b3d7', '#d99694', '#c3d69b', '#b2a2c7', '#b7dde8', '#fac08f', '#f2c314',
-					'#a5a5a5', '#262626', '#494429', '#17365d', '#366092', '#953734', '#76923c', '#5f497a', '#92cddc', '#e36c09', '#c09100',
-					'#7f7f7f', '#0c0c0c', '#1d1b10', '#0f243e', '#244061', '#632423', '#4f6128', '#3f3151', '#31859b',  '#974806', '#7f6000'
+					'#800000', '#808000', '#008000', '#008080', '#000080', '#800080', '#7F7F7F', '#808080',
+                    '#804000', '#408000', '#008040', '#004080', '#400080', '#800040', '#666666', '#999999',
+                    '#FF0000', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#4C4C4C', '#B3B3B3',
+                    '#FF8000', '#80FF00', '#00FF80', '#0080FF', '#8000FF', '#FF0080', '#333333', '#CCCCCC',
+                    '#FF6666', '#FFFF66', '#66FF66', '#66FFFF', '#6666FF', '#FF66FF', '#191919', '#E6E6E6',
+                    '#FFCC66', '#CCFF66', '#66FFCC', '#66CCFF', '#CC66FF', '#FF6FCF', '#FFFFFF', '#000000'
 				];
 
 				var name = 'fontcolor';
@@ -19,7 +19,7 @@
 				var button = this.button.addAfter('deleted', name, this.lang.get(name));
 				var $dropdown = this.button.addDropdown(button);
 
-				$dropdown.width(242);
+				$dropdown.width(176);
 				this.fontcolor.buildPicker($dropdown, name, colors);
 
 			},
