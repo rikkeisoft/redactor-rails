@@ -657,6 +657,13 @@ body .redactor-box-fullscreen {
 /*
 	List in Modal
 */
+#auto_set_template_block ul {
+  margin-left: 0;
+  padding-left: 0;
+  list-style: none;
+  max-height: 250px;
+  overflow-x: auto;
+}
 #redactor-modal #redactor-modal-list {
   margin-left: 0;
   padding-left: 0;
@@ -664,11 +671,25 @@ body .redactor-box-fullscreen {
   max-height: 250px;
   overflow-x: auto;
 }
+#auto_set_template_block ul li {
+  border-bottom: 1px solid #ddd;
+}
 #redactor-modal #redactor-modal-list li {
   border-bottom: 1px solid #ddd;
 }
+#auto_set_template_block ul li:last-child {
+  border-bottom: none;
+}
 #redactor-modal #redactor-modal-list li:last-child {
   border-bottom: none;
+}
+#auto_set_template_block ul li a {
+  padding: 10px 5px;
+  color: #000;
+  text-decoration: none;
+  font-size: 13px;
+  display: block;
+  position: relative;
 }
 #redactor-modal #redactor-modal-list a {
   padding: 10px 5px;
@@ -677,6 +698,9 @@ body .redactor-box-fullscreen {
   font-size: 13px;
   display: block;
   position: relative;
+}
+#auto_set_template_block ul li a:hover {
+  background-color: #eee;
 }
 #redactor-modal #redactor-modal-list a:hover {
   background-color: #eee;

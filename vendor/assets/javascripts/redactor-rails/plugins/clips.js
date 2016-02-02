@@ -14,16 +14,26 @@
         }
 
         this.clips.template = $('<ul id="redactor-modal-list">');
+        this.clips.template_extend = undefined;
+        var modal_body_extend = undefined;
 
         if (items.length > 0) {
+          modal_body_extend = "<input type='checkbox' name='auto_set_template'>" + this.lang.get('auto_set_template');
+          this.clips.template_extend = $('<ul>');
           for (var i = 0; i < items.length; i++) {
             var li = $('<li>');
+            var li2 = $('<li>');
             var a = $('<a href="#" class="redactor-clip-link">').text(items[i][0]);
             var div = $('<div class="redactor-clip">').hide().html(items[i][1]);
-
+            var a2 = $('<a href="#">').text(items[i][0]);
+            var input = $('<input type="hidden"/>').attr('name',"template_id_"+items[i][2]);
+              input.val(items[i][2]);
             li.append(a);
             li.append(div);
+            li2.append(a2);
+            li2.append(input);
             this.clips.template.append(li);
+            this.clips.template_extend.append(li2);
           }
         } else {
           var li = $('<li>'),
@@ -37,7 +47,12 @@
         if (items.length > 0) {
           modal_body += "<input type='checkbox' class='remove_all' style='margin-top: 10px'>" + this.lang.get('remove_all');
         }
-        this.modal.addTemplate('clips', '<section>' + modal_body + '</section>');
+        var template = "<section id='set_template_block'>" + modal_body + "</section>";
+        if (modal_body_extend !== undefined && this.clips.template_extend !== undefined) {
+          modal_body_extend += this.utils.getOuterHtml(this.clips.template_extend);
+          template += "<section id='auto_set_template_block'>" + modal_body_extend + "</section>";
+        }
+        this.modal.addTemplate('clips', template);
 
         var button = this.button.addBefore('fullscreen', 'clips', this.lang.get('clip_label'));
         this.button.addCallback(button, this.clips.show);

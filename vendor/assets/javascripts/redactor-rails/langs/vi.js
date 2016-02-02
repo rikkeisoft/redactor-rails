@@ -80,6 +80,7 @@ $.Redactor.opts.langs["vi"] = {
 	change_font_size: "Chính sửa font size",
 	remove_all: "Xóa nội dung đã chọn?",
 	get_image_error: "Đã xảy ra lỗi. Không tìm thấy hình ảnh",
-	get_file_error: "Đã xảy ra lỗi. Không tìm thấy file"
+	get_file_error: "Đã xảy ra lỗi. Không tìm thấy file",
+  auto_set_template: "Tự động chèn mẫu"
 };
 })( jQuery );

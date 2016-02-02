@@ -80,6 +80,7 @@ $.Redactor.opts.langs["en"] = {
   change_font_size: "Change font size",
   remove_all: "Do you want to change the actual content?",
   get_image_error: "An error occured. Image not found.",
-  get_file_error: "An error occured. File not found."
+  get_file_error: "An error occured. File not found.",
+  auto_set_template: "Setting auto template"
 };
 })( jQuery );
