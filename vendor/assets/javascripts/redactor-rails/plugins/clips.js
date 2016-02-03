@@ -48,7 +48,7 @@
           modal_body += "<input type='checkbox' class='remove_all' style='margin-top: 10px'>" + this.lang.get('remove_all');
         }
         var template = "<section id='set_template_block'>" + modal_body + "</section>";
-        if (modal_body_extend !== undefined && this.clips.template_extend !== undefined) {
+        if (modal_body_extend !== undefined && this.clips.template_extend !== undefined && this.opts.template_type == 'summary') {
           modal_body_extend += this.utils.getOuterHtml(this.clips.template_extend);
           template += "<section id='auto_set_template_block'>" + modal_body_extend + "</section>";
         }
