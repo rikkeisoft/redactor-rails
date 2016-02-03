@@ -81,6 +81,6 @@
    remove_all: '実際の内容を変更しますか？',
    get_image_error: 'エラーが発生しました。任意の画像が見つかりませんでした。',
    get_file_error: 'エラーが発生しました。任意のファイルが見つかりませんでした。',
-   auto_set_template: '自動でテンプレートを挿入する'
+   auto_set_template: '新規作成時に自動でテンプレートを挿入する'
  };
 })( jQuery );
