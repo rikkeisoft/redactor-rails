@@ -564,6 +564,7 @@ body .redactor-box-fullscreen {
   box-shadow: 0 1px 70px rgba(0, 0, 0, 0.5);
 }
 #redactor-modal header {
+  border-bottom: 1px solid #ddd;
   padding: 30px 40px 5px 40px;
   font-size: 18px;
   font-weight: bold;
@@ -672,10 +673,10 @@ body .redactor-box-fullscreen {
   overflow-x: auto;
 }
 #auto_set_template_block ul li {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px dotted #ddd;
 }
 #redactor-modal #redactor-modal-list li {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px dotted #ddd;
 }
 #auto_set_template_block ul li:last-child {
   border-bottom: none;

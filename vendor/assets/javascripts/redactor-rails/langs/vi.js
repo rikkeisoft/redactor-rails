@@ -78,6 +78,7 @@ $.Redactor.opts.langs["vi"] = {
 	fullscreen_label: "Toàn màn hình",
 	remove_font_size: "Xóa font size",
 	change_font_size: "Chính sửa font size",
+  header_auto_set: 'Thiết lập tự động chèn mẫu',
 	remove_all: "Xóa nội dung đã chọn?",
 	get_image_error: "Đã xảy ra lỗi. Không tìm thấy hình ảnh",
 	get_file_error: "Đã xảy ra lỗi. Không tìm thấy file",
