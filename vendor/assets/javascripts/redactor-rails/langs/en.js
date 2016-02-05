@@ -78,9 +78,10 @@ $.Redactor.opts.langs["en"] = {
   fullscreen_label: "Full screen display",
   remove_font_size: "Remove font size",
   change_font_size: "Change font size",
+  header_auto_set: 'Auto setting template',
   remove_all: "Do you want to change the actual content?",
   get_image_error: "An error occured. Image not found.",
   get_file_error: "An error occured. File not found.",
-  auto_set_template: "Setting auto template"
+  auto_set_template: "to setting auto template"
 };
 })( jQuery );
