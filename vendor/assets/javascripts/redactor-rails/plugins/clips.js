@@ -18,7 +18,7 @@
         var modal_body_extend = undefined;
 
         if (items.length > 0) {
-          modal_body_extend = "<input type='checkbox' name='auto_set_template'>" + this.lang.get('auto_set_template');
+          modal_body_extend = "<label><input type='checkbox' name='auto_set_template'>" + this.lang.get('auto_set_template') + "</label>";
           this.clips.template_extend = $('<ul>');
           for (var i = 0; i < items.length; i++) {
             var li = $('<li>');
