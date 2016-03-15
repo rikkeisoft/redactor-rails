@@ -322,7 +322,7 @@ $.Redactor.prototype.nimage = function() {
         });
       }
 
-      $image.css('opacity', '.5').after(imageBox);
+      $image.after(imageBox.css('opacity', '.5'));
 
       if (this.opts.imageEditable) {
         // editter
@@ -390,7 +390,7 @@ $.Redactor.prototype.nimage = function() {
         $img = $(json).attr('data-redactor-inserted-image', 'true');
       } else {
         $img = $('<img>');
-        $img.attr('src', json.filelink).attr('data-redactor-inserted-image', 'true');
+        $img.attr('src', json.filelink).attr('data-redactor-inserted-image', 'true').attr('alt', json.filename);
 
         if (REDACTOR.lightbox && json.lightbox) {
           $imgWrapper = $('<a>');
