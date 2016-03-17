@@ -3782,7 +3782,10 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						if ($link.length === 0)
 						{
 							var a = $('<a href="' + link + '">' + this.utils.getOuterHtml($image) + '</a>');
-							if (target) a.attr('target', '_blank');
+							if (target) {
+                a.attr('target', '_blank');
+                a.removeClass('image-lightbox');
+              }
 
 							$image.replaceWith(a);
 						}
@@ -3792,10 +3795,12 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 							if (target)
 							{
 								$link.attr('target', '_blank');
+								$link.removeClass('image-lightbox');
 							}
 							else
 							{
 								$link.removeAttr('target');
+								$link.addClass('image-lightbox');
 							}
 						}
 					}
@@ -4015,7 +4020,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						imageBox.css({ 'display': 'block', 'margin': 'auto' });
 					}
 
-					$image.css('opacity', '.5').after(imageBox);
+					$image.after(imageBox.css('opacity', '.5'));
 
 
 					if (this.opts.imageEditable)
