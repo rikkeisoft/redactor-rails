@@ -1,6 +1,6 @@
 /*
 	Redactor 10.2.5
-	Updated: October 1, 2015
+	Updated: March 23, 2016
 
 	http://imperavi.com/redactor/
 
@@ -3828,6 +3828,8 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 						this.observe.image = $image;
 
+            this.image.hideResize();
+
 						this.image.resizer = this.image.loadEditableControls($image);
 
 						$(document).on('mousedown.redactor-image-resize-hide.' + this.uuid, $.proxy(this.image.hideResize, this));
@@ -3962,7 +3964,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					imageBox.find('img').css('opacity', '');
 					imageBox.replaceWith(function()
 					{
-						return $(this).contents();
+						return $(this).find('span').contents();
 					});
 
 					$(document).off('mousedown.redactor-image-resize-hide.' + this.uuid);
@@ -3978,6 +3980,11 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 				},
 				loadResizableControls: function($image, imageBox)
 				{
+          var imageSpan = $('<span>');
+          imageSpan.css('opacity', '.5');
+          imageSpan.css('display', 'block');
+          imageSpan.append($image);
+
 					if (this.opts.imageResizable && !this.utils.isMobile())
 					{
 						var imageResizer = $('<span id="redactor-image-resizer" data-redactor="verified"></span>');
@@ -3989,13 +3996,13 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 						imageResizer.attr('contenteditable', false);
 						imageBox.append(imageResizer);
-						imageBox.append($image);
+						imageBox.append(imageSpan);
 
 						return imageResizer;
 					}
 					else
 					{
-						imageBox.append($image);
+						imageBox.append(imageSpan);
 						return false;
 					}
 				},
@@ -4020,7 +4027,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						imageBox.css({ 'display': 'block', 'margin': 'auto' });
 					}
 
-					$image.after(imageBox.css('opacity', '.5'));
+					$image.after(imageBox);
 
 
 					if (this.opts.imageEditable)
