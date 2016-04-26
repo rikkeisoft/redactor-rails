@@ -35,7 +35,11 @@ $.Redactor.prototype.nfile = function() {
         if (typeof text == 'undefined' || text === '') {
           text = json.filename;
         }
-        link = '<a href="' + json.filelink + '" id="filelink-marker" target="_blank">' + text + '</a>';
+        if (json.is_pdf == true) {
+          link = '<a href="#" id="ndsn_pdf_veiwer_' + json.id + '" >' + text + '</a>'
+        } else {
+          link = '<a href="' + json.filelink + '" id="filelink-marker" target="_blank">' + text + '</a>';
+        }
       }
 
       if (direct) {
