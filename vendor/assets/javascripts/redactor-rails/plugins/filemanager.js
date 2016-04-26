@@ -31,7 +31,12 @@
       insert: function(e) {
         e.preventDefault();
         var $target = $(e.target).closest('.redactor-file-manager-link');
-        this.file.insert('<a href="' + $target.attr('rel') + '" target="_blank">' + $target.attr('title') + '</a>');
+
+        if ($target.data("pdf") != undefined && $target.data("pdf") == true) {
+          this.file.insert('<a href="#" id="ndsn_pdf_veiwer_' + $target.data("id") + '" >' + $target.attr('title') + '</a>');
+        } else {
+          this.file.insert('<a href="' + $target.attr('rel') + '" target="_blank">' + $target.attr('title') + '</a>');
+        }
       },
       draw_file_list: function(page) {
         $('#redactor-file-manager-box .file-list').html(this.filemanager.loading_animation);
@@ -47,7 +52,10 @@
           $('#redactor-file-manager-box .file-list').html('');
           this.filemanager.draw_pagination(pagination);
           $.each(data, $.proxy(function(key, val) {
-            var a = $('<a href="#" title="' + val.title + '" rel="' + val.link + '" class="redactor-file-manager-link">' + val.title + ' <span style="font-size: 11px; color: #888;">' + val.name + '</span> <span style="position: absolute; right: 10px; font-size: 11px; color: #888;">(' + val.size + ')</span></a>');
+            var a = $('<a href="#" title="' + val.title + '" data-id="' + val.id + '" data-pdf="' + val.is_pdf + '" ' +
+              'rel="' + val.link + '" class="redactor-file-manager-link">' + val.title +
+              '<span style="font-size: 11px; color: #888;">' + val.name +
+              '</span> <span style="position: absolute; right: 10px; font-size: 11px; color: #888;">(' + val.size + ')</span></a>');
             var li = $('<li />');
             a.on('click', $.proxy(this.filemanager.insert, this));
             li.append(a);
