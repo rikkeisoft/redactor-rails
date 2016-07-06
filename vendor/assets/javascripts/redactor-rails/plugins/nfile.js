@@ -37,6 +37,21 @@ $.Redactor.prototype.nfile = function() {
         }
         if (json.is_pdf == true) {
           link = '<a href="#" id="ndsn_pdf_veiwer_' + json.id + '" >' + text + '</a>'
+        } else if (json.use_ms_viewer == true) {
+          link = '<a href="' + json.filelink + '" id="filelink-marker" target="_blank">' + text + '</a>';
+          var url = json.content_url;
+          var preview = '<div id="upload_file_preview_box">' +
+            '<iframe src="https://view.officeapps.live.com/op/embed.aspx?' +
+            'src='+ url +'" ' +
+            'width="180px" height="180px" id="preview_'+ json.id +'">' +
+            '</iframe>' +
+            '</div>';
+          var content = this.$editor.get(0).parentNode.parentNode;
+          if ($(content).next().prop('id') == 'upload_file_preview_box') {
+            $(content).next().replaceWith($(preview))
+          } else {
+            $(preview).insertAfter(content);
+          }
         } else {
           link = '<a href="' + json.filelink + '" id="filelink-marker" target="_blank">' + text + '</a>';
         }

@@ -34,6 +34,21 @@
 
         if ($target.data("pdf") != undefined && $target.data("pdf") == true) {
           this.file.insert('<a href="#" id="ndsn_pdf_veiwer_' + $target.data("id") + '" >' + $target.attr('title') + '</a>');
+        } else if ($target.data('ms-viewer') != undefined && $target.data('ms-viewer') == true) {
+          this.file.insert('<a href="' + $target.attr('rel') + '" target="_blank">' + $target.attr('title') + '</a>');
+          var url = $target.data('content-url');
+          var preview = '<div id="upload_file_preview_box">' +
+            '<iframe src="https://view.officeapps.live.com/op/embed.aspx?' +
+            'src='+ url +'" ' +
+            'width="180px" height="180px" id="preview_'+ $target.data("id") +'">' +
+            '</iframe>' +
+            '</div>';
+          var content = this.$editor.get(0).parentNode.parentNode;
+          if ($(content).next().prop('id') == 'upload_file_preview_box') {
+            $(content).next().replaceWith($(preview))
+          } else {
+            $(preview).insertAfter(content);
+          }
         } else {
           this.file.insert('<a href="' + $target.attr('rel') + '" target="_blank">' + $target.attr('title') + '</a>');
         }
@@ -53,6 +68,7 @@
           this.filemanager.draw_pagination(pagination);
           $.each(data, $.proxy(function(key, val) {
             var a = $('<a href="#" title="' + val.title + '" data-id="' + val.id + '" data-pdf="' + val.is_pdf + '" ' +
+              'data-ms-viewer="' + val.use_ms_viewer +'" data-content-url="' + val.content_url + '" ' +
               'rel="' + val.link + '" class="redactor-file-manager-link">' + val.title +
               '<span style="font-size: 11px; color: #888;">' + val.name +
               '</span> <span style="position: absolute; right: 10px; font-size: 11px; color: #888;">(' + val.size + ')</span></a>');
