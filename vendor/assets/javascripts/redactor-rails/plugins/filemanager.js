@@ -44,10 +44,19 @@
             '</iframe>' +
             '</div>';
           var content = this.$editor.get(0).parentNode.parentNode;
-          if ($(content).next().prop('id') == 'upload_file_preview_box') {
-            $(content).next().replaceWith($(preview))
+          if ($(content).hasClass("detail-main")) {
+            var redactor_box = this.$editor.get(0).parentNode;
+            if ($(redactor_box).next().prop('id') == 'upload_file_preview_box') {
+              $(redactor_box).next().replaceWith($(preview))
+            } else {
+              $(preview).insertAfter(redactor_box);
+            }
           } else {
-            $(preview).insertAfter(content);
+            if ($(content).next().prop('id') == 'upload_file_preview_box') {
+              $(content).next().replaceWith($(preview))
+            } else {
+              $(preview).insertAfter(content);
+            }
           }
         } else {
           this.file.insert('<a href="' + $target.attr('rel') + '" target="_blank">' + $target.attr('title') + '</a>');
