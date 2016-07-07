@@ -37,25 +37,26 @@
         } else if ($target.data('ms-viewer') != undefined && $target.data('ms-viewer') == true) {
           this.file.insert('<a href="' + $target.attr('rel') + '" target="_blank">' + $target.attr('title') + '</a>');
           var url = $target.data('content-url');
-          var preview = '<div id="upload_file_preview_box">' +
+          var preview = '<li>' +
+            '<a href="#" class="del-btn tooltip" title="削除"><svg class="svg svg-cross"><use xlink:href="#icon-cross" /></svg></a>' +
+            '<div class="moov-killer"></div>' +
             '<iframe src="https://view.officeapps.live.com/op/embed.aspx?' +
             'src='+ url +'" ' +
             'width="180px" height="180px" id="preview_'+ $target.data("id") +'">' +
             '</iframe>' +
-            '</div>';
+            '</li>';
           var content = this.$editor.get(0).parentNode.parentNode;
+          var microsoft_viewer = undefined;
           if ($(content).hasClass("detail-main")) {
             var redactor_box = this.$editor.get(0).parentNode;
-            if ($(redactor_box).next().prop('id') == 'upload_file_preview_box') {
-              $(redactor_box).next().replaceWith($(preview))
-            } else {
-              $(preview).insertAfter(redactor_box);
-            }
+            microsoft_viewer = $(redactor_box).next();
           } else {
-            if ($(content).next().prop('id') == 'upload_file_preview_box') {
-              $(content).next().replaceWith($(preview))
-            } else {
-              $(preview).insertAfter(content);
+            microsoft_viewer = $(content).next();
+          }
+          if (microsoft_viewer != undefined && microsoft_viewer.hasClass('microsoft-viewer-list')) {
+            microsoft_viewer.find('ul').append(preview);
+            if (microsoft_viewer.find('ul li').length > 0 && !microsoft_viewer.hasClass('active')) {
+              microsoft_viewer.addClass('active');
             }
           }
         } else {
