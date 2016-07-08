@@ -38,7 +38,8 @@
           this.file.insert('<a href="' + $target.attr('rel') + '" target="_blank">' + $target.attr('title') + '</a>');
           var url = $target.data('content-url');
           var preview = '<li>' +
-            '<a href="#" class="del-btn tooltip" title="削除"><svg class="svg svg-cross"><use xlink:href="#icon-cross" /></svg></a>' +
+            '<a href="#" class="del-btn tooltip" title=" '+ this.lang.get('_delete') + '">' +
+            '<svg class="svg svg-cross"><use style="pointer-events: none;" xlink:href="#icon-cross" /></svg></a>' +
             '<div class="moov-killer"></div>' +
             '<iframe src="https://view.officeapps.live.com/op/embed.aspx?' +
             'src='+ url +'" ' +

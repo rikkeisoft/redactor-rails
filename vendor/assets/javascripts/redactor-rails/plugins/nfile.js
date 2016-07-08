@@ -41,7 +41,8 @@ $.Redactor.prototype.nfile = function() {
           link = '<a href="' + json.filelink + '" id="filelink-marker" target="_blank">' + text + '</a>';
           var url = json.content_url;
           var preview = '<li>' +
-            '<a href="#" class="del-btn tooltip" title="削除"><svg class="svg svg-cross"><use xlink:href="#icon-cross" /></svg></a>' +
+            '<a href="#" class="del-btn tooltip" title=" '+ this.lang.get('_delete') + '">' +
+            '<svg class="svg svg-cross"><use style="pointer-events: none;" xlink:href="#icon-cross" /></svg></a>' +
             '<div class="moov-killer"></div>' +
             '<iframe src="https://view.officeapps.live.com/op/embed.aspx?' +
             'src='+ url +'" ' +
