@@ -49,15 +49,8 @@ $.Redactor.prototype.nfile = function() {
             'width="180px" height="180px" id="preview_'+ json.id +'">' +
             '</iframe>' +
             '</li>';
-          var content = this.$editor.get(0).parentNode.parentNode;
-          var microsoft_viewer = undefined;
-          if ($(content).hasClass("detail-main")) {
-            var redactor_box = this.$editor.get(0).parentNode;
-            microsoft_viewer = $(redactor_box).next();
-          } else {
-            microsoft_viewer = $(content).next();
-          }
-          if (microsoft_viewer != undefined && microsoft_viewer.hasClass('microsoft-viewer-list')) {
+          if (this.$textarea.prop('id').match(/article_content_|daily_report_summary_content_/)) {
+            var microsoft_viewer = $("div#upload_file_preview_box");
             microsoft_viewer.find('ul').append(preview);
             if (microsoft_viewer.find('ul li').length > 0 && !microsoft_viewer.hasClass('active')) {
               microsoft_viewer.addClass('active');
