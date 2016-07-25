@@ -40,10 +40,11 @@
           var preview = '<li>' +
             '<a href="#" class="del-btn tooltip" title=" '+ this.lang.get('_delete') + '">' +
             '<svg class="svg svg-cross"><use style="pointer-events: none;" xlink:href="#icon-cross" /></svg></a>' +
+            '<div class="file-name">' + $target.attr('title') + '</div>' +
             '<div class="moov-killer"></div>' +
             '<iframe src="https://view.officeapps.live.com/op/embed.aspx?' +
             'src='+ url +'" ' +
-            'width="180px" height="180px" id="preview_'+ $target.data("id") +'">' +
+            'width="200px" height="200px" id="preview_'+ $target.data("id") +'">' +
             '</iframe>' +
             '</li>';
           if (this.$textarea.prop('id').match(/article_content_|daily_report_summary_content_/)) {
