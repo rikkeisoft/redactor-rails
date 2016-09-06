@@ -50,9 +50,13 @@
           modal_body = "<label><input type='checkbox' class='remove_all' style='margin-top: 10px'>" + this.lang.get('remove_all') + "</label>" + modal_body;
         }
         var template = "<section id='set_template_block'>" + modal_body + "</section>";
-        if (modal_body_extend !== undefined && this.clips.template_extend !== undefined && this.opts.template_type == 'summary') {
+        if (modal_body_extend !== undefined && this.clips.template_extend !== undefined && (this.opts.template_type == 'summary' || this.opts.template_type == 'article')) {
           modal_body_extend += this.utils.getOuterHtml(this.clips.template_extend);
-          template += "<header>" + this.lang.get('header_auto_set') + "</header>";
+          if (this.opts.template_type == 'summary') {
+            template += "<header id='summary_auto_set_template'>" + this.lang.get('header_auto_set') + "</header>";
+          } else {
+            template += "<header id='article_auto_set_template'>" + this.lang.get('header_auto_set') + "</header>";
+          }
           template += "<section id='auto_set_template_block'>" + modal_body_extend + "</section>";
         }
         this.modal.addTemplate('clips', template);
