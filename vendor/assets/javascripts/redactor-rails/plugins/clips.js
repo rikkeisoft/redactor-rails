@@ -8,6 +8,8 @@
           templates = REDACTOR.params.clips.summary;
         } else if (this.opts.template_type == 'detail' && REDACTOR.params.clips.detail) {
           templates = REDACTOR.params.clips.detail;
+        } else if (this.opts.template_type == 'article' && REDACTOR.params.clips.article) {
+          templates = REDACTOR.params.clips.article;
         }
         if (templates !== undefined && templates.length > 0) {
           items = templates;
