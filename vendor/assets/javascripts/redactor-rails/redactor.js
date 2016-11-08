@@ -4986,7 +4986,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 					var parHtml = $(parent).html();
 
-					parHtml = '<p>' + parHtml.replace(/<span class="redactor-ie-paste"><\/span>/gi, '</p>' + html + '<p>') + '</p>';
+					parHtml = '<p>' + parHtml.replace(/<span class="redactor-ie-paste"><\/span>|<span class="redactor-ie-paste"><br><\/span>/gi, '</p>' + html + '<p>') + '</p>';
 					parHtml = parHtml.replace(/<p><\/p>/gi, '');
 					$(parent).replaceWith(parHtml);
 				},
