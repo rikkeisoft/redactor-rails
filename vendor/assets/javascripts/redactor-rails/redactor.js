@@ -343,7 +343,8 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 			}
 		},
 
-		codemirror: false
+		codemirror: false,
+    urlPdfView: null
 	};
 
 	// Functionality
@@ -5915,7 +5916,11 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					{
 						this.modal.load('link', this.lang.get('link_insert'), 600);
 					}
-					else
+					else if (this.observe.isCurrent('a') && this.observe.isLinkFdf())
+          {
+            this.modal.load('link_pdf', this.lang.get('link_edit'), 600);
+          }
+          else
 					{
 						this.modal.load('link', this.lang.get('link_edit'), 600);
 					}
@@ -5932,6 +5937,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					this.link.cleanUrl();
 
 					if (this.link.target == '_blank') $('#redactor-link-blank').prop('checked', true);
+					if (this.link.download == 'true') $('#redactor-link-download').prop('checked', true);
 
 					this.link.$inputUrl = $('#redactor-link-url');
 					this.link.$inputText = $('#redactor-link-url-text');
@@ -5979,12 +5985,14 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						this.link.url = $el.attr('href');
 						this.link.text = $el.text();
 						this.link.target = $el.attr('target');
+            this.link.download = $el.attr('data-download');
 					}
 					else
 					{
 						this.link.text = this.sel.toString();
 						this.link.url = '';
 						this.link.target = '';
+						this.link.download = '';
 					}
 
 				},
@@ -5993,6 +6001,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					this.placeholder.remove();
 
 					var target = '';
+					var download = '';
 					var link = this.link.$inputUrl.val();
 					var text = this.link.$inputText.val().replace(/(<([^>]+)>)/ig,"");
 
@@ -6031,14 +6040,17 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						{
 							link = this.opts.linkProtocol + '://' + link;
 						}
-					}
+					} else if (link.search('#') === 0 && $('#redactor-link-download').prop('checked'))
+          {
+            download = 'true';
+          }
 
-					this.link.set(text, link, target);
+					this.link.set(text, link, target, download);
 					this.modal.close();
 				},
-				set: function(text, link, target)
+				set: function(text, link, target, download)
 				{
-					text = $.trim(text.replace(/<|>/g, ''));
+          text = $.trim(text.replace(/<|>/g, ''));
 
 					this.selection.restore();
 					var blocks = this.selection.getBlocks();
@@ -6079,6 +6091,15 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 							$link.removeAttr('target');
 						}
 
+            if (download !== '')
+            {
+              $link.attr('data-download', download);
+            }
+            else
+            {
+              $link.removeAttr('data-download');
+            }
+
 						this.selection.selectElement($link);
 
 						this.code.sync();
@@ -6089,6 +6110,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						{
 							var $a = $('<a />').attr('href', link).text(text);
 							if (target !== '') $a.attr('target', target);
+							if (download !== '') $a.attr('data-download', download);
 
 							$a = $(this.insert.node($a));
 
@@ -6106,6 +6128,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 							{
 								$a = $('<a href="' + link + '">').text(text);
 								if (target !== '') $a.attr('target', target);
+                if (download !== '') $a.attr('data-download', download);
 
 								$a = $(this.insert.node($a));
 
@@ -6127,6 +6150,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 								}
 
 								if (target !== '') $a.attr('target', target);
+                if (download !== '') $a.attr('data-download', download);
 								$a.removeAttr('style').removeAttr('_moz_dirty');
 
 								if (this.selection.getText().match(/\s$/))
@@ -6592,7 +6616,16 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 							+ '<label>' + this.lang.get('text') + '</label>'
 							+ '<input type="text" id="redactor-link-url-text" aria-label="' + this.lang.get('text') + '" />'
 							+ '<label><input type="checkbox" id="redactor-link-blank"> ' + this.lang.get('link_new_tab') + '</label>'
-						+ '</section>'
+						+ '</section>',
+
+            link_pdf: String()
+              + '<section id="redactor-modal-link-insert">'
+              + '<label style="display: none">URL</label>'
+              + '<input style="display: none" type="url" id="redactor-link-url" aria-label="URL" />'
+              + '<label>' + this.lang.get('text') + '</label>'
+              + '<input type="text" id="redactor-link-url-text" aria-label="' + this.lang.get('text') + '" />'
+              + '<label><input type="checkbox" id="redactor-link-download"> ' + this.lang.get('allow_download') + '</label>'
+              + '</section>'
 					};
 
 
@@ -6925,6 +6958,12 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 					return $current.is($el) || $current.parents($el).length > 0;
 				},
+        isLinkFdf: function()
+        {
+          var $current = $(this.selection.getCurrent());
+
+          return $current.parents('a').length > 0 && $current.parents('a')[0].id !== undefined && $current.parents('a')[0].id.match(/ndsn_pdf_veiwer_/g);
+        },
 				dropdowns: function()
 				{
 					var $current = $(this.selection.getCurrent());
@@ -7116,6 +7155,20 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					var aLink = $('<a href="' + $link.attr('href') + '" target="_blank" />').html(href).addClass('redactor-link-tooltip-action');
 					var aEdit = $('<a href="#" />').html(this.lang.get('edit')).on('click', $.proxy(this.link.show, this)).addClass('redactor-link-tooltip-action');
 					var aUnlink = $('<a href="#" />').html(this.lang.get('unlink')).on('click', $.proxy(this.link.unlink, this)).addClass('redactor-link-tooltip-action');
+
+          if ($el[0].id !== undefined && $el[0].id.match(/ndsn_pdf_veiwer_/g) && this.opts.urlPdfView !== null)
+          {
+            var attachmentId = $el[0].id.replace(/ndsn_pdf_veiwer_/g, "");
+            if ( $el.attr('data-download') === 'true' )
+            {
+              var pdfUrl = this.opts.urlPdfView + attachmentId + '&download=true';
+            }
+            else
+            {
+              var pdfUrl = this.opts.urlPdfView + attachmentId;
+            }
+            aLink = $('<a href="' + pdfUrl + '" target="_blank" />').html(this.lang.get('open_link_file')).addClass('redactor-link-tooltip-action');
+          }
 
 					tooltip.append(aLink).append(' | ').append(aEdit).append(' | ').append(aUnlink);
 					tooltip.css({

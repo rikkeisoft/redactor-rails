@@ -66,6 +66,7 @@ $.Redactor.opts.langs["vi"] = {
 	deleted: "Đã xóa",
 	anchor: "Neo",
 	link_new_tab: "Mở link trong tab mới",
+  allow_download: 'Cho phép tải file pdf',
 	underline: "Gạch chân",
 	alignment: "Căn lề",
 	filename: "Tên (không bắt buộc)",
@@ -82,6 +83,7 @@ $.Redactor.opts.langs["vi"] = {
 	remove_all: "Xóa nội dung đã chọn?",
 	get_image_error: "Đã xảy ra lỗi. Không tìm thấy hình ảnh",
 	get_file_error: "Đã xảy ra lỗi. Không tìm thấy file",
-  auto_set_template: "Tự động chèn mẫu"
+  auto_set_template: "Tự động chèn mẫu",
+  open_link_file: 'Mở file'
 };
 })( jQuery );
