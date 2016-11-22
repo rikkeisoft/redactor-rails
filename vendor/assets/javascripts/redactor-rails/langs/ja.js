@@ -66,6 +66,7 @@
    deleted: '取り消し線',
    anchor: 'アンカー',
    link_new_tab: '新しいタブでリンクを開く',
+   allow_download: 'ダウンロードを許可する',
    underline: '下線',
    alignment: '行揃え',
    filename: 'ファイルの名前（オプション）',
@@ -82,6 +83,7 @@
    remove_all: '入力されている内容と置き換えますか？',
    get_image_error: 'エラーが発生しました。任意の画像が見つかりませんでした。',
    get_file_error: 'エラーが発生しました。任意のファイルが見つかりませんでした。',
-   auto_set_template: '新規作成時に自動でテンプレートを挿入する'
+   auto_set_template: '新規作成時に自動でテンプレートを挿入する',
+   open_link_file: 'ファイルを開く'
  };
 })( jQuery );

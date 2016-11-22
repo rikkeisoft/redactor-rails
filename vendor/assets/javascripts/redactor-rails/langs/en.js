@@ -66,6 +66,7 @@ $.Redactor.opts.langs["en"] = {
   deleted: "Deleted",
   anchor: "Anchor",
   link_new_tab: "Open link in new tab",
+  allow_download: 'Allow downloading pdf file',
   underline: "Underline",
   alignment: "Alignment",
   filename: "Name (optional)",
@@ -82,6 +83,7 @@ $.Redactor.opts.langs["en"] = {
   remove_all: "Do you want to change the actual content?",
   get_image_error: "An error occured. Image not found.",
   get_file_error: "An error occured. File not found.",
-  auto_set_template: "to setting auto template"
+  auto_set_template: "to setting auto template",
+  open_link_file: 'Open file'
 };
 })( jQuery );
