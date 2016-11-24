@@ -344,7 +344,8 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 		},
 
 		codemirror: false,
-    urlPdfView: null
+    urlPdfView: null,
+    urlPdfViewPhone: null
 	};
 
 	// Functionality
@@ -7156,16 +7157,24 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					var aEdit = $('<a href="#" />').html(this.lang.get('edit')).on('click', $.proxy(this.link.show, this)).addClass('redactor-link-tooltip-action');
 					var aUnlink = $('<a href="#" />').html(this.lang.get('unlink')).on('click', $.proxy(this.link.unlink, this)).addClass('redactor-link-tooltip-action');
 
-          if ($el[0].id !== undefined && $el[0].id.match(/ndsn_pdf_veiwer_/g) && this.opts.urlPdfView !== null)
+          if (this.utils.isMobile())
+          {
+            var urlView = this.opts.urlPdfViewPhone;
+          }
+          else
+          {
+            var urlView = this.opts.urlPdfView;
+          }
+          if ($el[0].id !== undefined && $el[0].id.match(/ndsn_pdf_veiwer_/g) && urlView !== null)
           {
             var attachmentId = $el[0].id.replace(/ndsn_pdf_veiwer_/g, "");
             if ( $el.attr('data-download') === 'true' )
             {
-              var pdfUrl = this.opts.urlPdfView + attachmentId + '&download=true';
+              var pdfUrl = urlView + attachmentId + '&download=true';
             }
             else
             {
-              var pdfUrl = this.opts.urlPdfView + attachmentId;
+              var pdfUrl = urlView + attachmentId;
             }
             aLink = $('<a href="' + pdfUrl + '" target="_blank" />').html(this.lang.get('open_link_file')).addClass('redactor-link-tooltip-action');
           }
