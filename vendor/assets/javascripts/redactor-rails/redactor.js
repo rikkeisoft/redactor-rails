@@ -345,7 +345,10 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 		codemirror: false,
     urlPdfView: null,
-    urlPdfViewPhone: null
+    urlPdfViewPhone: null,
+    usePdfViewer: null,
+    downloadDefaultPdf: null,
+    attachmentsPath: null
 	};
 
 	// Functionality
@@ -5917,7 +5920,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					{
 						this.modal.load('link', this.lang.get('link_insert'), 600);
 					}
-					else if (this.observe.isCurrent('a') && this.observe.isLinkFdf())
+					else if (this.observe.isCurrent('a') && this.observe.isLinkFdf() && this.opts.usePdfViewer)
           {
             this.modal.load('link_pdf', this.lang.get('link_edit'), 600);
           }
@@ -5983,10 +5986,25 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					{
 						this.link.$node = $el;
 
-						this.link.url = $el.attr('href');
+            if ($el.attr('href') === '#' && $el[0].id !== undefined && $el[0].id.match(/ndsn_pdf_veiwer_/g) && !this.opts.usePdfViewer)
+            {
+              var attachmentId = $el[0].id.replace(/ndsn_pdf_veiwer_/g, "");
+              this.link.url = this.opts.attachmentsPath + attachmentId;
+            }
+            else
+            {
+              this.link.url = $el.attr('href');
+            }
 						this.link.text = $el.text();
 						this.link.target = $el.attr('target');
-            this.link.download = $el.attr('data-download');
+            if ($el.attr('data-download') == 'true' || $el.attr('data-download') == 'false')
+            {
+              this.link.download = $el.attr('data-download');
+            }
+            else if (this.opts.downloadDefaultPdf)
+            {
+              this.link.download = 'true';
+            }
 					}
 					else
 					{
@@ -6041,9 +6059,15 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						{
 							link = this.opts.linkProtocol + '://' + link;
 						}
-					} else if (link.search('#') === 0 && $('#redactor-link-download').prop('checked'))
+					}
+
+          if ($('#redactor-link-download').prop('checked') === true)
           {
             download = 'true';
+          }
+          else if ($('#redactor-link-download').prop('checked') === false)
+          {
+            download = 'false';
           }
 
 					this.link.set(text, link, target, download);
@@ -6092,13 +6116,26 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 							$link.removeAttr('target');
 						}
 
-            if (download !== '')
+            if (download === 'true' || download === 'false')
             {
+              if (link.match(/\/attachments/g) && $link[0].id == '' && this.opts.usePdfViewer)
+              {
+                var attachmentId = link.replace(/\/attachments/g, "").replace(/\//g, "");
+                var linkId = 'ndsn_pdf_veiwer_' + attachmentId;
+                $link.attr('id', linkId);
+                $link.attr('href', '#');
+              }
               $link.attr('data-download', download);
             }
             else
             {
               $link.removeAttr('data-download');
+            }
+
+            if (link.match(/\/attachments/g) && $link[0].id !== undefined && $link[0].id.match(/ndsn_pdf_veiwer_/g) &&
+              !this.opts.usePdfViewer)
+            {
+              $link.removeAttr('id');
             }
 
 						this.selection.selectElement($link);
@@ -6963,8 +7000,32 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
         {
           var $current = $(this.selection.getCurrent());
 
-          return $current.parents('a').length > 0 && $current.parents('a')[0].id !== undefined && $current.parents('a')[0].id.match(/ndsn_pdf_veiwer_/g);
+          return $current.parents('a').length > 0 &&
+            (($current.parents('a')[0].id !== undefined && $current.parents('a')[0].id.match(/ndsn_pdf_veiwer_/g)) ||
+             ($current.parents('a').attr('href').match(/\/attachments/g) && this.observe.isFdfFile($current.parents('a').attr('href').replace(/\/attachments/g, "").replace(/\//g, ""))));
         },
+        isFdfFile: function($attachmentId)
+        {
+          var is_pdf = false;
+
+          // data
+          var data = {};
+          data['check_pdf'] = true;
+
+          // ajax
+          $.ajax({
+            url: this.opts.attachmentsPath + $attachmentId,
+            type: 'get',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+              if(data) is_pdf = true;
+            },
+            async: false
+          });
+
+          return is_pdf;
+       },
 				dropdowns: function()
 				{
 					var $current = $(this.selection.getCurrent());
@@ -7157,26 +7218,54 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					var aEdit = $('<a href="#" />').html(this.lang.get('edit')).on('click', $.proxy(this.link.show, this)).addClass('redactor-link-tooltip-action');
 					var aUnlink = $('<a href="#" />').html(this.lang.get('unlink')).on('click', $.proxy(this.link.unlink, this)).addClass('redactor-link-tooltip-action');
 
-          if (this.utils.isMobile())
+          if (this.opts.usePdfViewer)
           {
-            var urlView = this.opts.urlPdfViewPhone;
-          }
-          else
-          {
-            var urlView = this.opts.urlPdfView;
-          }
-          if ($el[0].id !== undefined && $el[0].id.match(/ndsn_pdf_veiwer_/g) && urlView !== null)
-          {
-            var attachmentId = $el[0].id.replace(/ndsn_pdf_veiwer_/g, "");
-            if ( $el.attr('data-download') === 'true' )
+            if (this.utils.isMobile())
             {
-              var pdfUrl = urlView + attachmentId + '&download=true';
+              var urlView = this.opts.urlPdfViewPhone;
             }
             else
             {
-              var pdfUrl = urlView + attachmentId;
+              var urlView = this.opts.urlPdfView;
             }
-            aLink = $('<a href="' + pdfUrl + '" target="_blank" />').html(this.lang.get('open_link_file')).addClass('redactor-link-tooltip-action');
+            if ((($el[0].id !== undefined && $el[0].id.match(/ndsn_pdf_veiwer_/g))
+                || ($link.attr('href').match(/\/attachments/g) &&
+                this.observe.isFdfFile($link.attr('href').replace(/\/attachments/g, "").replace(/\//g, "")))) && urlView !== null)
+            {
+              if ($el[0].id !== undefined && $el[0].id.match(/ndsn_pdf_veiwer_/g))
+              {
+                var attachmentId = $el[0].id.replace(/ndsn_pdf_veiwer_/g, "");
+              }
+              else
+              {
+                var attachmentId = $link.attr('href').replace(/\/attachments/g, "").replace(/\//g, "")
+              }
+
+              if ( $el.attr('data-download') == 'true' )
+              {
+                var pdfUrl = urlView + attachmentId + '&download=true';
+              }
+              else if ( $el.attr('data-download') == 'false' )
+              {
+                var pdfUrl = urlView + attachmentId;
+              }
+              else if (this.opts.downloadDefaultPdf)
+              {
+                var pdfUrl = urlView + attachmentId + '&download=true';
+              }
+              else
+              {
+                var pdfUrl = urlView + attachmentId;
+              }
+
+              aLink = $('<a href="' + pdfUrl + '" target="_blank" />').html(this.lang.get('open_link_file')).addClass('redactor-link-tooltip-action');
+            }
+          }
+          else if ($el[0].id !== undefined && $el[0].id.match(/ndsn_pdf_veiwer_/g) && $el.attr('href') === '#')
+          {
+            var attachmentId = $el[0].id.replace(/ndsn_pdf_veiwer_/g, "");
+            href = this.opts.attachmentsPath + attachmentId;
+            aLink = $('<a href="' + href + '" target="_blank" />').html(href).addClass('redactor-link-tooltip-action');
           }
 
 					tooltip.append(aLink).append(' | ').append(aEdit).append(' | ').append(aUnlink);
