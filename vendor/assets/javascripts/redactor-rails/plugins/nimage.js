@@ -8,9 +8,9 @@ $.Redactor.prototype.nimage = function() {
       this.modal.load('image', this.lang.get('image'), 700);
 
       if (this.utils.browser('msie') && this.utils.isLessIe10()) {
-        this.nupload.init('#redactor-modal-image-droparea', this.opts.imageUpload, this.nimage.insert, 'image');
+        this.nupload.init('#redactor-modal-image-droparea', this.opts.imageUpload, this.nimage.insertMultiImage, 'image');
       } else {
-        this.upload.init('#redactor-modal-image-droparea', this.opts.imageUpload, this.nimage.insert);
+        this.upload.init('#redactor-modal-image-droparea', this.opts.imageUpload, this.nimage.insertMultiImage);
       }
 
       this.selection.save();
@@ -414,6 +414,75 @@ $.Redactor.prototype.nimage = function() {
       this.buffer.set();
 
       this.insert.html(this.utils.getOuterHtml(node), false);
+
+      var $image = this.$editor.find('img[data-redactor-inserted-image=true]').removeAttr('data-redactor-inserted-image');
+
+      if (this.opts.linebreaks) {
+        if (!this.utils.isEmpty(this.code.get())) {
+          $image.before('<br>');
+        }
+        $image.after('<br>');
+      }
+
+      if (typeof json == 'string') {
+        return;
+      }
+      this.core.setCallback('imageUpload', $image, json);
+    },
+    insertMultiImage: function(json, direct, e) {
+      // error callback
+      if (typeof json.error != 'undefined') {
+        this.modal.close();
+        this.selection.restore();
+        this.core.setCallback('imageUploadError', json);
+        return;
+      }
+
+      var $img;
+      if (typeof json == 'string') {
+        $img = $(json).attr('data-redactor-inserted-image', 'true');
+      } else {
+        $.each( json, $.proxy(function( key, value ) {
+          var $img_el;
+          $img_el = $('<img>');
+          $img_el.attr('src', value.filelink).attr('data-redactor-inserted-image', 'true').attr('alt', value.filename);
+
+          if (REDACTOR.lightbox && value.lightbox) {
+            $imgWrapper = $('<a>');
+            $imgWrapper.attr('href', value.original).attr('title', value.filename).addClass('image-lightbox');
+            $img_el = $imgWrapper.append($img_el);
+            if ($img)
+            {
+              $img = $img.add($('<br>'));
+              $img = $img.add($img_el);
+            }
+            else
+            {
+              $img = $img_el
+            }
+          }
+        }, this));
+      }
+
+      var node = $img;
+      var isP = this.utils.isCurrentOrParent('P');
+
+      if (direct) {
+        this.selection.removeMarkers();
+        var marker = this.selection.getMarker();
+        this.insert.nodeToCaretPositionFromPoint(e, marker);
+      } else {
+        this.modal.close();
+      }
+
+      this.selection.restore();
+      this.buffer.set();
+
+      var $html = $('<div>');
+      for (var i = 0; i < node.length; i++) {
+        $html.append(node.eq(i).eq(0).clone());
+      }
+      this.insert.html($html.html(), false);
 
       var $image = this.$editor.find('img[data-redactor-inserted-image=true]').removeAttr('data-redactor-inserted-image');
 
