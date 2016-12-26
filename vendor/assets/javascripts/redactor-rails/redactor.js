@@ -9018,7 +9018,15 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					this.upload.$droparea = $('<div id="redactor-droparea" />');
 
 					this.upload.$placeholdler = $('<div id="redactor-droparea-placeholder" />').text(this.lang.get('upload_label'));
-					this.upload.$input = $('<input type="file" name="file" />');
+
+          if (url !== null && url == this.opts.imageUpload)
+          {
+            this.upload.$input = $('<input type="file" name="file" multiple />');
+          }
+          else
+          {
+            this.upload.$input = $('<input type="file" name="file" />');
+          }
 
 					this.upload.$placeholdler.append(this.upload.$input);
 					this.upload.$droparea.append(this.upload.$placeholdler);
@@ -9034,7 +9042,14 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					this.upload.$input.on('change.redactor.upload', $.proxy(function(e)
 					{
 						e = e.originalEvent || e;
-						this.upload.traverseFile(this.upload.$input[0].files[0], e);
+            if (url !== null && url == this.opts.imageUpload)
+            {
+              this.upload.traverseMultiImage(this.upload.$input[0].files, e);
+            }
+            else
+            {
+              this.upload.traverseFile(this.upload.$input[0].files[0], e);
+            }
 					}, this));
 
 					// drop
@@ -9081,6 +9096,20 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					this.core.setCallback('uploadStart', e, formData);
 					this.upload.sendData(formData, e);
 				},
+        traverseMultiImage: function(file, e)
+        {
+          var formData = !!window.FormData ? new FormData() : null;
+          if (window.FormData)
+          {
+            for (var i = 0; i < file.length; i++) {
+              formData.append('file['+i+']', file[i]);
+            }
+          }
+
+          this.progress.show();
+          this.core.setCallback('uploadStart', e, formData);
+          this.upload.sendData(formData, e);
+        },
 				setConfig: function(file)
 				{
 					this.upload.getType(file);
