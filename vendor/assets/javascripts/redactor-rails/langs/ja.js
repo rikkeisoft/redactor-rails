@@ -42,6 +42,7 @@
    add_head: '表タイトルの追加',
    delete_head: '表タイトルの削除',
    title: 'タイトル',
+   clear: 'クリア',
    image_position: '画像の位置',
    none: '指定無し',
    left: '左',

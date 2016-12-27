@@ -42,6 +42,7 @@ $.Redactor.opts.langs["vi"] = {
 	add_head: "Thêm header cho bảng",
 	delete_head: "Xóa header của bảng",
 	title: "Tiêu đề",
+  clear: 'Tạo lại',
 	image_position: "Vị trí ảnh",
 	none: "Không",
 	left: "Trái",

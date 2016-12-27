@@ -42,6 +42,7 @@ $.Redactor.opts.langs["en"] = {
   add_head: "Add Head",
   delete_head: "Delete Head",
   title: "Title",
+  clear: 'Clear',
   image_position: "Position",
   none: "None",
   left: "Left",
