@@ -3713,6 +3713,11 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						if ($link.length !== 0)
 						{
 							$redactorImageLink.val($link.attr('href'));
+              $('#redactor-image-preview').attr('src', $image.attr('src'));
+              var attachmentID = $image.attr('src').split("/")[2];
+              $('#ajax-combobox_image_tag_id').attr('data-attachment-id', attachmentID);
+              getImageTags();
+
 							if ($link.attr('target') == '_blank') $('#redactor-image-link-blank').prop('checked', true);
 						}
 					}
@@ -3764,6 +3769,10 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 					var title = $('#redactor-image-title').val().replace(/(<([^>]+)>)/ig,"");
 					$image.attr('alt', title);
+
+          var imageTagID = $('#ajax-combobox_image_tag_id_primary_key').val();
+          var attachmentID = $image.attr('src').split("/")[2];
+          var json = {attachmentID: attachmentID, imageTagID: imageTagID};
 
 					this.image.setFloating($image);
 
@@ -3818,6 +3827,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					this.modal.close();
 					this.observe.images();
 					this.code.sync();
+          this.core.setCallback('updateImageTag', $image, json);
 
 
 				},
@@ -6619,6 +6629,9 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					this.opts.modal = {
 						imageEdit: String()
 						+ '<section id="redactor-modal-image-edit">'
+              + '<img class="center" id="redactor-image-preview">'
+              + '<input class="image-tag" type="text" id="ajax-combobox_image_tag_id"/>'
+              + '<a class="center" href="#" id="image_tag_clear">' + this.lang.get('clear') + '</a>'
 							+ '<label>' + this.lang.get('title') + '</label>'
 							+ '<input type="text" id="redactor-image-title" />'
 							+ '<label class="redactor-image-link-option">' + this.lang.get('link') + '</label>'

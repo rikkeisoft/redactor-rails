@@ -1128,3 +1128,24 @@ body .redactor-box-fullscreen {
     display: inline-block;
   }
 }
+
+img.center {
+ display: block;
+ margin: 0 auto;
+}
+
+a.center {
+ display: block;
+ margin: 12px auto;
+ width: 10%;
+}
+
+input.image-tag {
+ width: 88% !important;
+ height: 25px !important;
+}
+
+#redactor-modal-image-edit .ac_container {
+ width: 70% !important;
+ margin: 5px auto !important;
+}
