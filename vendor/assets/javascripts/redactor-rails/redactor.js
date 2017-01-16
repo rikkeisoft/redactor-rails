@@ -9028,6 +9028,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					this.upload.callback = callback;
 					this.upload.url = url;
 					this.upload.$el = $(id);
+          this.upload.$noteText = $('<div style="font-size: 90%;margin-bottom: 10px;"/>').text(this.lang.get('multi_image_note_text'));
 					this.upload.$droparea = $('<div id="redactor-droparea" />');
 
 					this.upload.$placeholdler = $('<div id="redactor-droparea-placeholder" />').text(this.lang.get('upload_label'));
@@ -9035,6 +9036,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
           if (url !== null && url == this.opts.imageUpload)
           {
             this.upload.$input = $('<input type="file" name="file" multiple />');
+            this.upload.$el.append(this.upload.$noteText);
           }
           else
           {
