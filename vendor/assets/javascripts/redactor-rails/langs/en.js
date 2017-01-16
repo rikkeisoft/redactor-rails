@@ -85,6 +85,7 @@ $.Redactor.opts.langs["en"] = {
   get_image_error: "An error occured. Image not found.",
   get_file_error: "An error occured. File not found.",
   auto_set_template: "to setting auto template",
-  open_link_file: 'Open file'
+  open_link_file: 'Open file',
+  multi_image_note_text: '※Up to 4 images can be uploaded.'
 };
 })( jQuery );
