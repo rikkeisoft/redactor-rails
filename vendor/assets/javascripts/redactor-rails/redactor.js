@@ -3824,10 +3824,17 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 					}
 
-					this.modal.close();
-					this.observe.images();
-					this.code.sync();
-          this.core.setCallback('updateImageTag', $image, json);
+          if (json.imageTagID)
+          {
+					  this.modal.close();
+					  this.observe.images();
+					  this.code.sync();
+            this.core.setCallback('updateImageTag', $image, json);
+          }
+          else
+          {
+            alert(this.lang.get('no_selected_image_tag'));
+          }
 
 
 				},
