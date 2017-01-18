@@ -86,6 +86,7 @@
    get_file_error: 'エラーが発生しました。任意のファイルが見つかりませんでした。',
    auto_set_template: '新規作成時に自動でテンプレートを挿入する',
    open_link_file: 'ファイルを開く',
-   multi_image_note_text: '※一度にアップロードできる画像は最大４枚'
+   multi_image_note_text: '※一度にアップロードできる画像は最大４枚',
+   no_selected_image_tag: '画像タグを入力してください。'
  };
 })( jQuery );

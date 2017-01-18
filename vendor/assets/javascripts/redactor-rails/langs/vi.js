@@ -86,6 +86,7 @@ $.Redactor.opts.langs["vi"] = {
 	get_file_error: "Đã xảy ra lỗi. Không tìm thấy file",
   auto_set_template: "Tự động chèn mẫu",
   open_link_file: 'Mở file',
-  multi_image_note_text: '※Có thể tải lên tối đa 4 ảnh.'
+  multi_image_note_text: '※Có thể tải lên tối đa 4 ảnh.',
+  no_selected_image_tag: 'Hãy nhập tag cho ảnh.'
 };
 })( jQuery );
