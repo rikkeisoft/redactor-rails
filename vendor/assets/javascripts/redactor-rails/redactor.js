@@ -3686,6 +3686,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					this.modal.createCancelButton();
 					this.image.buttonDelete = this.modal.createDeleteButton(this.lang.get('_delete'));
 					this.image.buttonSave = this.modal.createActionButton(this.lang.get('save'));
+          $("#redactor-modal-close").remove()
 
 					this.image.buttonDelete.on('click', $.proxy(function()
 					{
@@ -4057,8 +4058,9 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						// editter
 						this.image.editter = $('<span id="redactor-image-editter" data-redactor="verified">' + this.lang.get('edit') + '</span>');
 						this.image.editter.attr('contenteditable', false);
-						this.image.editter.on('click', $.proxy(function()
+						this.image.editter.on('click', $.proxy(function(e)
 						{
+              e.stopPropagation();
 							this.image.showEdit($image);
 						}, this));
 
