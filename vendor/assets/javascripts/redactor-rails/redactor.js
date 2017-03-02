@@ -3714,10 +3714,20 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						if ($link.length !== 0)
 						{
 							$redactorImageLink.val($link.attr('href'));
-              $('#redactor-image-preview').attr('src', $image.attr('src'));
-              var attachmentID = $image.attr('src').split("/")[2];
-              $('#ajax-combobox_image_tag_id').attr('data-attachment-id', attachmentID);
-              getImageTags();
+              if (this.opts.template_type == 'detail')
+              {
+                $('#redactor-image-preview').attr('src', $image.attr('src'));
+                var attachmentID = $image.attr('src').split("/")[2];
+                $('#ajax-combobox_image_tag_id').attr('data-attachment-id', attachmentID);
+                getImageTags();
+              }
+              else
+              {
+                $("#redactor-modal-image-edit").find('label, #redactor-image-title, #redactor-image-link, #redactor-image-align')
+                  .attr("style", "display: inline-block !important");
+                $("#redactor-modal-image-edit").find('#ajax-combobox_image_tag_id, #clear_select_imagetgs')
+                  .attr("style", "display: none !important");
+              }
 
 							if ($link.attr('target') == '_blank') $('#redactor-image-link-blank').prop('checked', true);
 						}
@@ -3771,7 +3781,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					var title = $('#redactor-image-title').val().replace(/(<([^>]+)>)/ig,"");
 					$image.attr('alt', title);
 
-          var imageTagID = $('#ajax-combobox_image_tag_id_primary_key').val();
+          var imageTagID = $('#ajax-combobox_image_tag_id').val();
           var attachmentID = $image.attr('src').split("/")[2];
           var json = {attachmentID: attachmentID, imageTagID: imageTagID};
 
@@ -3825,16 +3835,24 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 					}
 
-          if (json.imageTagID)
+          if (this.opts.template_type == 'detail')
           {
-					  this.modal.close();
-					  this.observe.images();
-					  this.code.sync();
-            this.core.setCallback('updateImageTag', $image, json);
+            if (json.imageTagID)
+            {
+              this.modal.close();
+              this.observe.images();
+              this.code.sync();
+              this.core.setCallback('updateImageTag', $image, json);
+            }
+            else
+            {
+              alert(this.lang.get('no_selected_image_tag'));
+            }
           }
-          else
-          {
-            alert(this.lang.get('no_selected_image_tag'));
+          else {
+            this.modal.close();
+            this.observe.images();
+            this.code.sync();
           }
 
 
@@ -6639,8 +6657,10 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						imageEdit: String()
 						+ '<section id="redactor-modal-image-edit">'
               + '<img class="center" id="redactor-image-preview">'
-              + '<input class="image-tag" type="text" id="ajax-combobox_image_tag_id"/>'
-              + '<a class="center" href="#" id="image_tag_clear">' + this.lang.get('clear') + '</a>'
+              + '<select id="ajax-combobox_image_tag_id" name="imagetags" style="width: 100%; margin-top: 10px;">'
+              + '<option value=""></option>'
+              + '</select>'
+              + '<a class="center" href="#" id="clear_select_imagetgs">' + this.lang.get('clear') + '</a>'
 							+ '<label>' + this.lang.get('title') + '</label>'
 							+ '<input type="text" id="redactor-image-title" />'
 							+ '<label class="redactor-image-link-option">' + this.lang.get('link') + '</label>'
