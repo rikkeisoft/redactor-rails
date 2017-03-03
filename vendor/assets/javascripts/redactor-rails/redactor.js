@@ -9115,8 +9115,14 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 				{
 					e = e.originalEvent || e;
 					var files = e.dataTransfer.files;
-
-					this.upload.traverseFile(files[0], e);
+          if (this.upload.url === this.opts.imageUpload)
+          {
+            this.upload.traverseMultiImage(files, e);
+          }
+          else
+          {
+            this.upload.traverseFile(files[0], e);
+          }
 				},
 				traverseFile: function(file, e)
 				{
