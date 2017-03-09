@@ -3725,7 +3725,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
               {
                 $("#redactor-modal-image-edit").find('label, #redactor-image-title, #redactor-image-link, #redactor-image-align')
                   .attr("style", "display: inline-block !important");
-                $("#redactor-modal-image-edit").find('#ajax-combobox_image_tag_id, #clear_select_imagetgs')
+                $("#redactor-modal-image-edit").find('#ajax-combobox_image_tag_id')
                   .attr("style", "display: none !important");
               }
 
@@ -6656,11 +6656,10 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					this.opts.modal = {
 						imageEdit: String()
 						+ '<section id="redactor-modal-image-edit">'
-              + '<img class="center" id="redactor-image-preview">'
+              + '<img class="center" id="redactor-image-preview" style="max-width: 100%">'
               + '<select id="ajax-combobox_image_tag_id" name="imagetags" style="width: 100%; margin-top: 10px;">'
               + '<option value=""></option>'
               + '</select>'
-              + '<a class="center" href="#" id="clear_select_imagetgs">' + this.lang.get('clear') + '</a>'
 							+ '<label>' + this.lang.get('title') + '</label>'
 							+ '<input type="text" id="redactor-image-title" />'
 							+ '<label class="redactor-image-link-option">' + this.lang.get('link') + '</label>'
