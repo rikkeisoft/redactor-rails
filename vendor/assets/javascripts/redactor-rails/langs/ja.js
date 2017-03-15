@@ -64,6 +64,7 @@
    align_justify: '均等割り付け',
    horizontalrule: '水平線',
    fullscreen: '全画面表示',
+   fullscreen_short: '全画面',
    deleted: '取り消し線',
    anchor: 'アンカー',
    link_new_tab: '新しいタブでリンクを開く',
