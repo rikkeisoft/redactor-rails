@@ -3861,7 +3861,14 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
             }
             else
             {
-              alert(this.lang.get('no_selected_image_tag'));
+              if (this.utils.isDesktop())
+              {
+                alert(this.lang.get('no_selected_image_tag'));
+              }
+              else
+              {
+                $("div.ndsn_sphone_modalbox_error").replaceWith(ndsn_sphone_error_html_2(this.lang.get('no_selected_image_tag')))
+              }
             }
           }
           else {
