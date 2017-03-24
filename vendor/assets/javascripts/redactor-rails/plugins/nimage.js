@@ -1,7 +1,7 @@
 $.Redactor.prototype.nimage = function() {
   return {
     init: function() {
-      var button = this.button.addAfter('html', 'image', this.lang.get('image'));
+      var button = this.button.addFirst('image', this.lang.get('image'));
       this.button.addCallback(button, this.nimage.show);
     },
     show: function() {
