@@ -6,8 +6,14 @@
 			init: function()
 			{
 				this.fullscreen.isOpen = false;
-
-				var button = this.button.add('fullscreen', this.lang.get('fullscreen_label'));
+        if (this.utils.isDesktop())
+        {
+				  var button = this.button.addAfter('file', 'fullscreen', this.lang.get('fullscreen_label'));
+        }
+        else
+        {
+          var button = this.button.addAfter('image', 'fullscreen', this.lang.get('fullscreen_label'));
+        }
 				this.button.addCallback(button, this.fullscreen.toggle);
 
 				if (this.opts.fullscreen) this.fullscreen.toggle();
