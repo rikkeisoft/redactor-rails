@@ -1779,7 +1779,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					var btn = this.button.build(key, { title: title });
 					btn.addClass('redactor-btn-image');
 
-					this.$toolbar.append($('<li>').append(btn));
+					this.$toolbar.append($('<li>').prepend(btn));
 
 					return btn;
 				},
