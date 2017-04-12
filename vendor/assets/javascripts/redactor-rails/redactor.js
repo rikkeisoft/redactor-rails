@@ -348,8 +348,10 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
     urlPdfViewPhone: null,
     usePdfViewer: null,
     downloadDefaultPdf: null,
-    attachmentsPath: null
-	};
+    attachmentsPath: null,
+    maxWidthImage: 1050,
+    maxHeightImage: 1050
+};
 
 	// Functionality
 	Redactor.fn = $.Redactor.prototype = {
@@ -9172,14 +9174,93 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
           var formData = !!window.FormData ? new FormData() : null;
           if (window.FormData)
           {
-            for (var i = 0; i < file.length; i++) {
-              formData.append('file['+i+']', file[i]);
+            var imageCount = file.length;
+            var imagesLoaded = 0;
+            for (var i = 0; i < imageCount; i++) {
+              var img = document.createElement("img");
+              var reader = new FileReader();
+              var that = this;
+              reader.onload = (function(theFile, index) {
+                var fileName = theFile.name;
+                var fileType = theFile.type;
+                return function(e) {
+                  img.src = e.target.result;
+                  img.onload = function () {
+                    var blob = that.upload.resize_to_limit(img, fileType);
+                    imagesLoaded++;
+                    if (blob)
+                    {
+                      formData.append('file['+index+']', blob, fileName);
+                    }
+                    else
+                    {
+                      formData.append('file['+index+']', theFile);
+                    }
+
+                    if(imagesLoaded == imageCount) {
+                      that.progress.show();
+                      that.core.setCallback('uploadStart', e, formData);
+                      that.upload.sendData(formData, e);
+                    }
+                  };
+                };
+              })(file[i], i);
+              reader.readAsDataURL(file[i]);
             }
           }
+          else
+          {
+            this.progress.show();
+            this.core.setCallback('uploadStart', e, formData);
+            this.upload.sendData(formData, e);
+          }
+        },
+        resize_to_limit: function(img, type)
+        {
+          var canvas = document.createElement('canvas');
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
 
-          this.progress.show();
-          this.core.setCallback('uploadStart', e, formData);
-          this.upload.sendData(formData, e);
+          var MAX_WIDTH = this.opts.maxWidthImage;
+          var MAX_HEIGHT = this.opts.maxHeightImage;
+          var width = img.width;
+          var height = img.height;
+
+          if (width > MAX_WIDTH || height > MAX_HEIGHT)
+          {
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            var dataURI = canvas.toDataURL(type);
+            var byteString = atob(dataURI.split(',')[1]);
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            var ab = new ArrayBuffer(byteString.length);
+            var ia = new Uint8Array(ab);
+            for (var j = 0; j < byteString.length; j++) {
+              ia[j] = byteString.charCodeAt(j);
+            }
+            var blob = new Blob([ab], {type: mimeString});
+
+            return blob;
+          }
+          else
+          {
+            return false;
+          }
         },
 				setConfig: function(file)
 				{
