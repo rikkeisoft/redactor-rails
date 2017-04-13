@@ -9176,17 +9176,18 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
           {
             var imageCount = file.length;
             var imagesLoaded = 0;
+            var images = new Array();
             for (var i = 0; i < imageCount; i++) {
-              var img = document.createElement("img");
+              images[i] = document.createElement("img");
               var reader = new FileReader();
               var that = this;
               reader.onload = (function(theFile, index) {
                 var fileName = theFile.name;
                 var fileType = theFile.type;
                 return function(e) {
-                  img.src = e.target.result;
-                  img.onload = function () {
-                    var blob = that.upload.resize_to_limit(img, fileType);
+                  images[index].src = e.target.result;
+                  images[index].onload = function () {
+                    var blob = that.upload.resize_to_limit(images[index], fileType);
                     imagesLoaded++;
                     if (blob)
                     {
