@@ -9218,9 +9218,12 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
         },
         resize_to_limit: function(img, type)
         {
-          var canvas = document.createElement('canvas');
-          var ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0);
+          var elementHandle = document.createElement("canvas");
+          var contextHandle = elementHandle.getContext("2d");
+          elementHandle.width = img.width;
+          elementHandle.height = img.height;
+          contextHandle.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
+          var dataToScale = contextHandle.getImageData(0, 0, img.width, img.height).data;
 
           var MAX_WIDTH = this.opts.maxWidthImage;
           var MAX_HEIGHT = this.opts.maxHeightImage;
@@ -9241,10 +9244,14 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
               }
             }
 
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext("2d");
             canvas.width = width;
             canvas.height = height;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, width, height);
+            var resized = new Resize(img.width, img.height, width, height, true, true, false, $.proxy(function (buffer) {
+              this.upload.updateCanvas(ctx, ctx.createImageData(width, height), buffer);
+            }, this));
+            resized.resize(dataToScale);
 
             var dataURI = canvas.toDataURL(type);
             var byteString = atob(dataURI.split(',')[1]);
@@ -9262,6 +9269,15 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
           {
             return false;
           }
+        },
+        updateCanvas: function(contextHandlePassed, imageBuffer, frameBuffer)
+        {
+          var data = imageBuffer.data;
+          var length = data.length;
+          for (var x = 0; x < length; ++x) {
+            data[x] = frameBuffer[x] & 0xFF;
+          }
+          contextHandlePassed.putImageData(imageBuffer, 0, 0);
         },
 				setConfig: function(file)
 				{
