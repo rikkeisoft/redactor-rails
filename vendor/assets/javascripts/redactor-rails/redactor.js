@@ -9174,9 +9174,11 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
           var formData = !!window.FormData ? new FormData() : null;
           if (window.FormData)
           {
+            this.progress.show();
             var imageCount = file.length;
             var imagesLoaded = 0;
             var images = new Array();
+            var t0 = performance.now();
             for (var i = 0; i < imageCount; i++) {
               images[i] = document.createElement("img");
               var reader = new FileReader();
@@ -9199,7 +9201,8 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
                     }
 
                     if(imagesLoaded == imageCount) {
-                      that.progress.show();
+                      var t1 = performance.now();
+                      console.log("Call to resize image took " + (t1 - t0)/1000 + " seconds.");
                       that.core.setCallback('uploadStart', e, formData);
                       that.upload.sendData(formData, e);
                     }
