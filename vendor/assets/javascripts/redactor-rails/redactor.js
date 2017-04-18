@@ -349,8 +349,8 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
     usePdfViewer: null,
     downloadDefaultPdf: null,
     attachmentsPath: null,
-    maxWidthImage: 1050,
-    maxHeightImage: 1050
+    maxWidthImage: 2000,
+    maxHeightImage: 2000
 };
 
 	// Functionality
