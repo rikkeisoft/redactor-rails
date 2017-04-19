@@ -448,12 +448,13 @@ $.Redactor.prototype.nimage = function() {
           $img_el.attr('src', value.filelink).attr('data-redactor-inserted-image', 'true').attr('alt', value.filename);
 
           if (REDACTOR.lightbox && value.lightbox) {
+            $PWrapper = $('<p>');
             $imgWrapper = $('<a>');
             $imgWrapper.attr('href', value.original).attr('title', value.filename).addClass('image-lightbox');
             $img_el = $imgWrapper.append($img_el);
+            $img_el = $PWrapper.append($img_el);
             if ($img)
             {
-              $img = $img.add($('<br>'));
               $img = $img.add($img_el);
             }
             else
