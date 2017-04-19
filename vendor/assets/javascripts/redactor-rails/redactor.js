@@ -349,8 +349,8 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
     usePdfViewer: null,
     downloadDefaultPdf: null,
     attachmentsPath: null,
-    maxWidthImage: 2000,
-    maxHeightImage: 2000
+    maxWidthImage: 1500,
+    maxHeightImage: 1500
 };
 
 	// Functionality
@@ -9221,6 +9221,10 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
         },
         resize_to_limit: function(img, type)
         {
+          var canvas = document.createElement('canvas');
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+
           var MAX_WIDTH = this.opts.maxWidthImage;
           var MAX_HEIGHT = this.opts.maxHeightImage;
           var width = img.width;
@@ -9230,15 +9234,20 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
           {
             if (width > height) {
               if (width > MAX_WIDTH) {
-                var scale = MAX_WIDTH / width
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
               }
             } else {
               if (height > MAX_HEIGHT) {
-                var scale = MAX_WIDTH / height
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
               }
             }
 
-            var canvas = this.upload.downScaleImage(img, scale);
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
 
             var dataURI = canvas.toDataURL(type);
             var byteString = atob(dataURI.split(',')[1]);
