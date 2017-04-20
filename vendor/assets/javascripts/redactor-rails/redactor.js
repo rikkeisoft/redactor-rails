@@ -9189,7 +9189,10 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
                 return function(e) {
                   images[index].src = e.target.result;
                   images[index].onload = function () {
-                    var blob = that.upload.resize_to_limit(images[index], fileType);
+                    var inputbase64data = images[index].src;
+                    var byteString = atob(inputbase64data.split(',')[1]);
+                    var orientation = that.upload.byteStringToOrientation(byteString);
+                    var blob = that.upload.resize_to_limit(images[index], fileType, orientation);
                     imagesLoaded++;
                     if (blob)
                     {
@@ -9219,7 +9222,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
             this.upload.sendData(formData, e);
           }
         },
-        resize_to_limit: function(img, type)
+        resize_to_limit: function(img, type, orientation)
         {
           var canvas = document.createElement('canvas');
           var ctx = canvas.getContext("2d");
@@ -9244,10 +9247,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
               }
             }
 
-            canvas.width = width;
-            canvas.height = height;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, width, height);
+            canvas = this.upload.clearOrientation(img, canvas, orientation, width, height);
 
             var dataURI = canvas.toDataURL(type);
             var byteString = atob(dataURI.split(',')[1]);
@@ -9265,6 +9265,105 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
           {
             return false;
           }
+        },
+        clearOrientation: function(img, canvas, orientaion, width, height) {
+          var ctx = canvas.getContext('2d');
+          switch (orientaion) {
+            case 2: // horizontal flip
+              canvas.width = width;
+              canvas.height = height;
+              ctx.scale(-1, 1);
+              ctx.drawImage(img, -width, 0, width, height);
+              ctx.scale(-1, 1);
+              break;
+            case 3: // 180° rotate left
+              canvas.width = width;
+              canvas.height = height;
+              ctx.rotate(Math.PI);
+              ctx.drawImage(img, -width, -height, width, height);
+              ctx.rotate(-Math.PI);
+              break;
+            case 4: // vertical flip
+              canvas.width = width;
+              canvas.height = height;
+              ctx.scale(1, -1);
+              ctx.drawImage(img, 0, -height, width, height);
+              ctx.scale(1, -1);
+              break;
+            case 5: // vertical flip + 90 rotate right
+              canvas.width = height;
+              canvas.height = width;
+              ctx.rotate(Math.PI * 0.5);
+              ctx.scale(1, -1);
+              ctx.drawImage(img, 0, 0, width, height);
+              ctx.rotate(-Math.PI * 0.5);
+              ctx.scale(1, -1);
+              break;
+            case 6: // 90° rotate right
+              canvas.width = height;
+              canvas.height = width;
+              ctx.rotate(Math.PI * 0.5);
+              ctx.drawImage(img, 0, -height, width, height);
+              ctx.rotate(-Math.PI * 0.5);
+              break;
+            case 7: // horizontal flip + 90 rotate right
+              canvas.width = height;
+              canvas.height = width;
+              ctx.rotate(Math.PI * 0.5);
+              ctx.scale(-1, 1);
+              ctx.drawImage(img, -width, -height, width, height);
+              ctx.rotate(-Math.PI * 0.5);
+              ctx.scale(-1, 1);
+              break;
+            case 8: // 90° rotate left
+              canvas.width = height;
+              canvas.height = width;
+              ctx.rotate(-Math.PI * 0.5);
+              ctx.drawImage(img, -width, 0, width, height);
+              ctx.rotate(Math.PI * 0.5);
+              break;
+            default:
+              canvas.width = width;
+              canvas.height = height;
+              ctx.drawImage(img, 0, 0, width, height);
+          }
+          return canvas
+        },
+        byteStringToOrientation: function(img) {
+          var head = 0;
+          var orientation;
+          while (1) {
+            if (img.charCodeAt(head) == 255 & img.charCodeAt(head + 1) == 218) {
+              break;
+            }
+            if (img.charCodeAt(head) == 255 & img.charCodeAt(head + 1) == 216) {
+              head += 2;
+            } else {
+              var length = img.charCodeAt(head + 2) * 256 + img.charCodeAt(head + 3);
+              var endPoint = head + length + 2;
+              if (img.charCodeAt(head) == 255 & img.charCodeAt(head + 1) == 225) {
+                var segment = img.slice(head, endPoint);
+                var bigEndian = segment.charCodeAt(10) == 77;
+                if (bigEndian) {
+                  var count = segment.charCodeAt(18) * 256 + segment.charCodeAt(19);
+                } else {
+                  var count = segment.charCodeAt(18) + segment.charCodeAt(19) * 256;
+                }
+                for (var i = 0; i < count; i++) {
+                  var field = segment.slice(20 + 12 * i, 32 + 12 * i);
+                  if ((bigEndian && field.charCodeAt(1) == 18) || (!bigEndian && field.charCodeAt(0) == 18)) {
+                    orientation = bigEndian ? field.charCodeAt(9) : field.charCodeAt(8);
+                  }
+                }
+                break;
+              }
+              head = endPoint;
+            }
+            if (head > img.length) {
+              break;
+            }
+          }
+          return orientation;
         },
         downScaleImage: function(img, scale) {
           var imgCV = document.createElement('canvas');
