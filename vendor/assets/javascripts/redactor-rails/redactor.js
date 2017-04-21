@@ -9174,7 +9174,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
           var formData = !!window.FormData ? new FormData() : null;
           if (window.FormData)
           {
-            this.progress.show();
+            this.core.setCallback('showLoadingBox');
             var imageCount = file.length;
             var imagesLoaded = 0;
             var images = new Array();
@@ -9578,8 +9578,14 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 								};
 							}
 
-
-							this.progress.hide();
+              if (this.upload.url === this.opts.imageUpload)
+              {
+                this.core.setCallback('hideLoadingBox');
+              }
+              else
+              {
+                this.progress.hide();
+              }
 
 							if (!this.upload.direct)
 							{
