@@ -33,7 +33,7 @@
               original = $(e.target).attr('data-origin');
 
         if (original && REDACTOR.lightbox) {
-          img_str += '<a href="' + $(e.target).attr('data-origin') + '" class="image-lightbox">';
+          img_str += '<a href="' + $(e.target).attr('data-origin') + '" target="_blank">';
         }
 
         img_str += '<img src="' + $(e.target).attr('rel') + '" alt="' + $(e.target).attr('title') + '">';

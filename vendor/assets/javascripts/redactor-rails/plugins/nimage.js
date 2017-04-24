@@ -394,7 +394,7 @@ $.Redactor.prototype.nimage = function() {
 
         if (REDACTOR.lightbox && json.lightbox) {
           $imgWrapper = $('<a>');
-          $imgWrapper.attr('href', json.original).attr('title', json.filename).addClass('image-lightbox');
+          $imgWrapper.attr('href', json.original).attr('title', json.filename).attr('target', "_blank");
           $img = $imgWrapper.append($img);
         }
       }
