@@ -5919,6 +5919,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					if (!this.observe.isCurrent('a'))
 					{
 						this.modal.load('link', this.lang.get('link_insert'), 600);
+            $('#redactor-link-blank').prop('checked', true);
 					}
 					else if (this.observe.isCurrent('a') && this.observe.isLinkFdf() && this.opts.usePdfViewer)
           {
