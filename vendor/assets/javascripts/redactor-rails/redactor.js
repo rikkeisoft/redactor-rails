@@ -2267,7 +2267,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					html = this.clean.onPasteWord(html);
 					html = this.clean.onPasteExtra(html);
 
-					html = this.clean.onPasteTidy(html, 'all');
+					//html = this.clean.onPasteTidy(html, 'all');
 
 
 					// paragraphize
@@ -2278,7 +2278,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
 					html = this.clean.removeDirtyStyles(html);
 					html = this.clean.onPasteRemoveSpans(html);
-					html = this.clean.onPasteRemoveEmpty(html);
+					//html = this.clean.onPasteRemoveEmpty(html);
 
 
 					html = this.clean.convertInline(html);
@@ -2736,6 +2736,8 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					var headers = this.$editor.find('h1, h2, h3, h4, h5, h6');
 					headers.find('span').removeAttr('style');
 					headers.find(this.opts.verifiedTags.join(', ')).removeAttr('style');
+
+					var bodyEnd = this.$editor.find('span').parent().css("text-align", "right");
 
 					this.code.sync();
 				},
