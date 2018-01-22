@@ -85,12 +85,14 @@
       insert: function(html) {
         var remove_all = $("#redactor-modal-body .remove_all").is(':checked');
         this.selection.restore();
+        this.opts.isInsertTemplate = true;
         if (remove_all) {
           this.insert.set(html);
         } else {
           this.insert.html(html);
         }
         this.modal.close();
+        this.opts.isInsertTemplate = false;
         this.observe.load();
       }
     };
