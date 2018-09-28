@@ -6,6 +6,8 @@
               templates = undefined;
         if (this.opts.template_type == 'summary' && REDACTOR.params.clips.summary) {
           templates = REDACTOR.params.clips.summary;
+        } else if (this.opts.template_type == 'summary_in_modal' && REDACTOR.params.clips.summary_in_modal) {
+          templates = REDACTOR.params.clips.summary_in_modal;
         } else if (this.opts.template_type == 'detail' && REDACTOR.params.clips.detail) {
           templates = REDACTOR.params.clips.detail;
         } else if (this.opts.template_type == 'article' && REDACTOR.params.clips.article) {
@@ -50,9 +52,9 @@
           modal_body = "<label><input type='checkbox' class='remove_all' style='margin-top: 10px'>" + this.lang.get('remove_all') + "</label>" + modal_body;
         }
         var template = "<section id='set_template_block'>" + modal_body + "</section>";
-        if (modal_body_extend !== undefined && this.clips.template_extend !== undefined && (this.opts.template_type == 'summary' || this.opts.template_type == 'article')) {
+        if (modal_body_extend !== undefined && this.clips.template_extend !== undefined && (this.opts.template_type == 'summary' || this.opts.template_type == 'article' || this.opts.template_type == 'summary_in_modal')) {
           modal_body_extend += this.utils.getOuterHtml(this.clips.template_extend);
-          if (this.opts.template_type == 'summary') {
+          if (this.opts.template_type == 'summary' || this.opts.template_type == 'summary_in_modal') {
             template += "<header id='summary_auto_set_template'>" + this.lang.get('header_auto_set') + "</header>";
           } else {
             template += "<header id='article_auto_set_template'>" + this.lang.get('header_auto_set') + "</header>";
