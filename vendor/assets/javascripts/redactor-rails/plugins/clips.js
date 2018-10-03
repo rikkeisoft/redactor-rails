@@ -12,6 +12,8 @@
           templates = REDACTOR.params.clips.article_in_modal;
         } else if (this.opts.template_type == 'detail' && REDACTOR.params.clips.detail) {
           templates = REDACTOR.params.clips.detail;
+        } else if (this.opts.template_type == 'detail_in_modal' && REDACTOR.params.clips.detail_in_modal) {
+          templates = REDACTOR.params.clips.detail_in_modal;
         } else if (this.opts.template_type == 'article' && REDACTOR.params.clips.article) {
           templates = REDACTOR.params.clips.article;
         }
