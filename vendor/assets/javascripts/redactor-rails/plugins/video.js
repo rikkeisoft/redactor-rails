@@ -3,6 +3,8 @@
     return {
       reUrlYoutube: /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com\S*[^\w\-\s])([\w\-]{11})(?=[^\w\-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/ig,
       reUrlVimeo: /https?:\/\/(www\.)?vimeo.com\/(\d+)($|\/)/,
+      reUrlGoogleDrive: /^(https?:\/\/(www\.)?drive.google.com\/)file\/d\/([^\/]+)((\/.*)|(\/([a-zA-z])))*$/,
+
       getTemplate: function() {
         return String() + '<section id="redactor-modal-video-insert">' + '<label>' + this.lang.get('video_html_code') + '</label>' + '<textarea id="redactor-insert-video-area" style="height: 160px;"></textarea>' + '</section>';
       },
@@ -31,7 +33,7 @@
         if (!data.match(/<iframe|<video/gi)) {
           data = this.clean.stripTags(data);
 
-          // parse if it is link on youtube & vimeo
+          // parse if it is link on youtube or vimeo or google drive
           var iframeStart = '<div class="embed-container"><iframe src="',
             iframeEnd = '" frameborder="0" allowfullscreen></iframe></div>';
 
@@ -39,6 +41,8 @@
             data = data.replace(this.video.reUrlYoutube, iframeStart + '//www.youtube.com/embed/$1' + iframeEnd);
           } else if (data.match(this.video.reUrlVimeo)) {
             data = data.replace(this.video.reUrlVimeo, iframeStart + '//player.vimeo.com/video/$2' + iframeEnd);
+          } else if (data.match(this.video.reUrlGoogleDrive)) {
+            data = data.replace(this.video.reUrlGoogleDrive, iframeStart + '//drive.google.com/file/d/$3/preview' + iframeEnd);
           }
         }
 
