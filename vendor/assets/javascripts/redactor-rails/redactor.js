@@ -8954,7 +8954,9 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 					}
 
 					var xhr = new XMLHttpRequest();
+					var csrf_token = $('meta[name=csrf-token]').attr('content');
 					xhr.open('POST', this.upload.url);
+					xhr.setRequestHeader('X-CSRF-Token', csrf_token);
 					xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
 					// complete
