@@ -3854,7 +3854,8 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
           if (this.opts.template_type == 'detail')
           {
-            if (json.imageTagID)
+            var business_type = $('#ajax-combobox_image_tag_id').data('business-type');
+            if (business_type === true || json.imageTagID)
             {
               this.modal.close();
               this.observe.images();
@@ -3863,12 +3864,9 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
             }
             else
             {
-              if (this.utils.isDesktop())
-              {
+              if (this.utils.isDesktop()) {
                 alert(this.lang.get('no_selected_image_tag'));
-              }
-              else
-              {
+              } else {
                 $("div.ndsn_sphone_modalbox_error").replaceWith(ndsn_sphone_error_html_2(this.lang.get('no_selected_image_tag')))
               }
             }
