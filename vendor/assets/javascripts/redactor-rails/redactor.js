@@ -1594,27 +1594,27 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 						this.dropdown.build(btnName, $dropdown, btnObject.dropdown);
 					}
 
-          if (btnName === 'link' || btnName === 'image')
-          {
-            $button.html(" "+ btnObject.title);
-          }
+					if (btnName === 'link' || btnName === 'image')
+					{
+						$button.html(" "+ btnObject.title);
+					}
 
-          if (this.utils.isDesktop() && btnName === 'file')
-          {
-            $button.html(" "+ btnObject.title);
-          }
+					if (btnName === 'file')
+					{
+						$button.html(" "+ btnObject.title);
+					}
 
-          if (btnName === 'fullscreen')
-          {
-            if (this.opts.lang === 'ja')
-            {
-              $button.html(" "+ this.lang.get('fullscreen_short'));
-            }
-            else
-            {
-              $button.html(" "+ btnObject.title);
-            }
-          }
+					if (btnName === 'fullscreen')
+					{
+						if (this.opts.lang === 'ja')
+						{
+							$button.html(" "+ this.lang.get('fullscreen_short'));
+						}
+						else
+						{
+							$button.html(" "+ btnObject.title);
+						}
+					}
 					return $button;
 				},
 				setEvent: function($button, btnName, btnObject)
