@@ -18,7 +18,7 @@ platforms :ruby do
   end
 
   group :active_record do
-    gem "carrierwave"
+    gem "carrierwave", github: "nana-dhsa/carrierwave"
     gem "mini_magick"
   end
 

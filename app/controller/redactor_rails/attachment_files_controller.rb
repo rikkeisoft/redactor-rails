@@ -1,7 +1,7 @@
 module RedactorRails
   # Attachment Files Controller
   class AttachmentFilesController < ApplicationController
-    before_filter :redactor_authenticate_user!
+    before_action :redactor_authenticate_user!
 
     def index
       attachment_model = RedactorRails.attachment_file_model
