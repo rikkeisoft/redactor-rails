@@ -9253,7 +9253,11 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 
             canvas = this.upload.clearOrientation(img, canvas, orientation, width, height);
 
-            var dataURI = canvas.toDataURL(type);
+			var exif = piexif.load(img.src)["Exif"] || {};
+			var exifObj = {"Exif":exif};
+			var exifStr = piexif.dump(exifObj);
+			var dataURI = piexif.insert(exifStr, canvas.toDataURL(type));
+            // var dataURI = canvas.toDataURL(type);
             var byteString = atob(dataURI.split(',')[1]);
             var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
             var ab = new ArrayBuffer(byteString.length);
