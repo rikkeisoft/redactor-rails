@@ -1,0 +1,59 @@
+#set_template_block label,
+#auto_set_template_block label {
+  font-weight: bold;
+  padding: 10px 0;
+  font-size: 14px;
+  line-height: 14px;
+}
+#set_template_block ul li,
+#auto_set_template_block ul li {
+  border-bottom: none;
+}
+#set_template_block ul li a,
+#auto_set_template_block ul li a {
+  padding: 10px 5px;
+  color: #000;
+  text-decoration: none;
+  font-size: 13px;
+  display: block;
+  position: relative;
+  border: 1px solid #fff;
+  border-bottom: 1px dotted #ccc;
+  line-height: 13px;
+}
+#set_template_block ul li a:hover,
+#auto_set_template_block ul li a:hover {
+  border: 1px solid #ccc;
+  background-color: #eee;
+}
+#set_template_block ul li a.seted,
+#set_template_block ul li a.seted:hover,
+#auto_set_template_block ul li a.seted,
+#auto_set_template_block ul li a.seted:hover {
+  border-bottom: 1px dotted #ccc;
+  color: #888;
+}
+#set_template_block ul li a.selected,
+#set_template_block ul li a.selected:hover,
+#auto_set_template_block ul li a.selected,
+#auto_set_template_block ul li a.selected:hover {
+  background-color: #CDDEF3;
+  border: 1px solid #518FD2;
+  color: #000;
+}
+#set_template_block .already_admin_seted,
+#auto_set_template_block .already_admin_seted {
+  margin: 20px 0 10px;
+}
+
+#set_template_block {
+  padding-bottom: 30px;
+}
+#summary_auto_set_template {
+  border-bottom: 1px solid #ddd;
+  padding: 20px;
+  margin-left: -48px;
+  margin-right: -48px;
+  font-size: 18px;
+  font-weight: bold;
+}
