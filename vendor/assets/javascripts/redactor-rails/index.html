@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Redactor</title>
+        <meta charset="utf-8">
+
+        <!-- redactor.css -->
+	    <link rel="stylesheet" href="redactor.min.css" />
+
+    </head>
+    <body style="margin: 0;">
+    	<div style="width: 70%; margin: auto; padding: 50px;">
+            <textarea id="content" name="content">
+
+            </textarea>
+    	</div>
+
+    	<!-- redactor.js -->
+	    <script src="redactor.min.js"></script>
+        <script src="plugins/video/video.min.js"></script>
+        <script src="plugins/alignment/alignment.min.js"></script>
+        <script src="plugins/limiter/limiter.min.js"></script>
+	    <script>
+    	    $R('#content', {
+                plugins: ['limiter'],
+                limiter: 100
+            });
+	    </script>
+    </body>
+</html>
