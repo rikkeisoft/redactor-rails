@@ -7,7 +7,7 @@
         init: function(app)
         {
             this.app = app;
-            this.opts = app.opts;
+            this.opts = app.opts.templates;
             this.lang = app.lang;
             this.toolbar = app.toolbar;
             this.insertion = app.insertion;
@@ -18,6 +18,7 @@
                 open: function($modal)
                 {
                     this._build($modal);
+                    this.modal = $modal
                 }
             }
         },
@@ -25,7 +26,7 @@
         // public
         start: function()
         {
-            if (!this.opts.templates) return;
+            if (!this.opts) return;
 
             var data = {
                 title: this.lang.get('templates'),
@@ -92,25 +93,40 @@
 
             return $list;
         },
-        _buildItems: function($list)
+        _buildItems: function($list, auto_template = false)
         {
-            var items = this.opts.templates;
+            var items = this.opts.data;
             for (var i = 0; i < items.length; i++)
             {
                 var $li = $R.dom('<li>');
                 var $item = $R.dom('<a>');
-                var $input = $R.dom('<input>');
 
                 $item.attr('data-index', i);
                 $item.html(items[i][0]);
                 $item.on('click', this._insert.bind(this));
 
-                $input.attr('type', 'hidden');
-                $input.attr('name', 'template_id_' + items[i][2]);
-                $input.val(items[i][2]);
-
                 $li.append($item);
-                $li.append($input);
+
+                if (auto_template)
+                {
+                    var $input = $R.dom('<input>');
+
+                    if (this.opts.auto_template_click)
+                    {
+                        $item.on('click', this.opts.auto_template_click.bind(this));
+                    }
+                    if (this.opts.auto_template_selected == items[i][2])
+                    {
+                        $item.addClass('selected');
+                    }
+
+                    $input.attr('type', 'hidden');
+                    $input.attr('name', 'template_id_' + items[i][2]);
+                    $input.val(items[i][2]);
+
+                    $li.append($input);
+                }
+
                 $list.append($li);
             }
         },
@@ -120,7 +136,12 @@
             var $label = this._buildAutoSetTemplateLabel();
             var $list = this._buildList();
 
-            this._buildItems($list);
+            this._buildItems($list, true);
+
+            if (!this.opts.auto_template_selected)
+            {
+                $list.hide();
+            }
 
             $section.attr('id', 'auto_set_template_block');
             $section.append($label);
@@ -144,6 +165,12 @@
             $input.attr('type', 'checkbox');
             $input.attr('name', 'auto_set_template');
 
+            if (this.opts.auto_template_selected)
+            {
+                $input.attr('checked', true);
+            }
+            $input.on('change', this._changeAutoTemplate.bind(this));
+
             $label.addClass('checkbox');
             $label.append($input);
             $label.append(this.lang.get('templates-auto-set'))
@@ -154,16 +181,32 @@
         {
             var $item = $R.dom(e.target);
             var index = $item.attr('data-index');
-            var html = this.opts.templates[index][1];
+            var html = this.opts.data[index][1];
 
             this.app.api('module.modal.close');
-            if ($R.dom("#replace_content:checked").length) {
+            if ($R.dom("#replace_content:checked").length)
+            {
                 this.insertion.set(html);
             }
-            else {
+            else
+            {
                 this.insertion.insertHtml(html);
             }
 
+        },
+        _changeAutoTemplate: function(e)
+        {
+            var $input = $R.dom(e.target);
+            var $list = $input.parent().next();
+
+            if ($input.is(":checked"))
+            {
+                $list.show();
+            }
+            else
+            {
+                $list.hide();
+            }
         }
     });
 })(Redactor);
