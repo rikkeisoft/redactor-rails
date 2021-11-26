@@ -70,7 +70,7 @@
             var $label = this._buildLabel();
             var $list = this._buildList();
 
-            this._buildItems($list);
+            this._buildItems($list, false);
 
             $section.attr('id', 'set_template_block');
             $section.append($label);
@@ -93,7 +93,7 @@
 
             return $list;
         },
-        _buildItems: function($list, auto_template = false)
+        _buildItems: function($list, auto_template)
         {
             var items = this.opts.data;
             for (var i = 0; i < items.length; i++)
