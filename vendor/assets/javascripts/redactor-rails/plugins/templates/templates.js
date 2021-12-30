@@ -182,6 +182,7 @@
             var $item = $R.dom(e.target);
             var index = $item.attr('data-index');
             var html = this.opts.data[index][1];
+            html = html.replace(new RegExp("<p><br>(\r\n)*</p>", 'gi'), "<p></p>")
 
             this.app.api('module.modal.close');
             if ($R.dom("#replace_content:checked").length)
