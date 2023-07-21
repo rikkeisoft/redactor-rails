@@ -6429,7 +6429,7 @@ REDACTOR = {version: "10.2.5",  instances: {}, params: {}};
 							// escaping url
 							var regexp = new RegExp('(' + href.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&") + regexB + ')', 'g');
 
-							html = html.replace(regexp, '<a href="' + linkProtocol + $.trim(href) + '" class="redactor-linkify-object">' + $.trim(text) + '</a>');
+							html = html.replace(regexp, '<a href="' + linkProtocol + $.trim(href) + '" target="_blank" class="redactor-linkify-object">' + $.trim(text) + '</a>');
 						}
 					}
 
